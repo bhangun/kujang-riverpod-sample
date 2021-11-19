@@ -172,19 +172,19 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
     });
   }
 
-  _showLocales(store) {
+  _showLocales(bloc) {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) => SizedBox(
             height: 200,
             child: ListView(
               children: [
-                _localeBtn('Bahasa', 'ID', store),
-                _localeBtn('English', 'EN', store),
+                _localeBtn('Bahasa', 'ID', bloc),
+                _localeBtn('English', 'EN', bloc),
               ],
             )));
   }
 
-  _localeBtn(title, key, store) =>
-      TextButton(child: Text(title), onPressed: () => store.switchLocale(key));
+  _localeBtn(title, key, bloc) =>
+      TextButton(child: Text(title), onPressed: () => bloc.switchLocale(key));
 }

@@ -27,6 +27,8 @@ class SettingsBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> switchLocale(String flag) async => locale = Locale(flag.toLowerCase(), flag);
-  
+  switchLocale(String flag) {
+    locale = Locale(flag.toLowerCase(), flag);
+    notifyListeners();
+  }
 }
