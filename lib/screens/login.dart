@@ -51,12 +51,12 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
     _userEmailController.addListener(() {
       // this will be called whenever user types in some value
-      //_authBloc.setUserId(_userEmailController.text);
+      _authBloc.setUserId(_userEmailController.text);
     });
 
     _passwordController.addListener(() {
       //this will be called whenever user types in some value
-     // _authBloc.setPassword(_passwordController.text);
+      _authBloc.setPassword(_passwordController.text);
     });
   }
 
@@ -71,12 +71,11 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-     _authBloc = ref.watch(authBloc);
-    var _settingBloc = ref.watch(settingsBloc);
+    _authBloc = ref.watch(authBloc);
     _errorText = _authBloc.errorMessage;
     _showError = _authBloc.showError;
     _message = ref.read(authBloc).errorMessage;
-    _isLight = _settingBloc.isLightTheme;
+    _isLight = ref.watch(settingsBloc).isLightTheme;
 
     return Scaffold(
         primary: true,
@@ -94,7 +93,9 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
               IconButton(
                   splashRadius: 15,
                   color: Theme.of(context).errorColor,
-                  icon: _isLight? const Icon(Icons.dark_mode): const Icon(Icons.light_mode),
+                  icon: _isLight
+                      ? const Icon(Icons.dark_mode)
+                      : const Icon(Icons.light_mode),
                   onPressed: () => ref.read(settingsBloc).switchTheme()),
               IconButton(
                   splashRadius: 15,

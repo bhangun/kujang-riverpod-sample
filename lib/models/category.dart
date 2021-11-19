@@ -24,13 +24,13 @@ class Category extends Equatable{
         
     };
 
-    static List<Category> listFromString(String str) => new List<Category>.from(json.decode(str).map((x) => Category.fromJson(x)));
+    static List<Category> listFromString(String str) => List<Category>.from(json.decode(str).map((x) => Category.fromJson(x)));
 
     static List<Category> listFromJson(List<dynamic> data) {
         return data.map((post) => Category.fromJson(post)).toList();
     }
 
-    static String listCategoryToJson(List<Category> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
+    static String listCategoryToJson(List<Category> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
     @override
     List<Object> get props => [
