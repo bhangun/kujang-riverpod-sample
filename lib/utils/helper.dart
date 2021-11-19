@@ -1,32 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import '../services/local/database_services.dart';
 import 'config.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-//
-setPrefs(String key,String value) {
-  // AppStorage.put(key, value);
-}
-
-//
-Future<String> prefs(String key) async {
-  return "";//AppStorage.fetch(key);
-}
 
 Future<Map<String, dynamic>> jwt() async {
-/* {
-     "sub": "1234567890",
-     "name": "Gustavo",
-     "iat": 1516239022,
-     "exp": 1516239022,
-     "randomKey": "something else"
-  } */
-  return JwtDecoder.decode(await prefs(TOKEN));
+  return JwtDecoder.decode(await DatabaseServices.db.saveToken(token));
 }
 
-//
 Future<List<String>> roles() async {
   return (await jwt())["auth"].split(",");
 }
@@ -41,17 +23,15 @@ instantToDate(DateTime date){
 }
 
 
-showModal(context, text) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+showModal(context, text, onPressed) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         action: SnackBarAction(
           label: 'Action',
-          onPressed: () {
-            // Code to execute.
-          },
+          onPressed: () => onPressed
         ),
         content: Text(text),
-        duration: Duration(milliseconds: 1500),
+        duration: const Duration(milliseconds: 1500),
         width: 280.0, // Width of the SnackBar.
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 8.0, // Inner padding for SnackBar content.
         ),
         behavior: SnackBarBehavior.floating,

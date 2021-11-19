@@ -12,11 +12,11 @@ class AppsRoutes {
   static const String home = '/home';
   static const String about = '/about';
   static const String register = '/register';
-  static const String forgot_password = '/forgot_password';
+  static const String forgotPassword = '/forgot_password';
 
   static final routes = <String, WidgetBuilder>{
-    splash: (BuildContext context) => SplashScreen(),
-    login: (BuildContext context) => LoginScreen(),
+    splash: (BuildContext context) => const SplashScreen(),
+    login: (BuildContext context) => const LoginScreen(),
     home: (BuildContext context) => HomeScreen(),
     about: (BuildContext context) => AboutPage(),
   };

@@ -6,10 +6,10 @@ import '../auth_jwt_services.dart';
 import 'rest_error_util.dart';
 
 class RestServices {
-  static Dio _dio = Dio()
-    ..options.baseUrl = API
-    ..options.connectTimeout = TIMEOUT_CONNECTION
-    ..options.receiveTimeout = TIMEOUT_RECEIVE
+  static final _dio = Dio()
+    ..options.baseUrl = api
+    ..options.connectTimeout = timeoutConnection
+    ..options.receiveTimeout = timeoutReceive
     ..interceptors.clear()
     ..interceptors.add(LogInterceptor(
         requestBody: false,
@@ -20,9 +20,10 @@ class RestServices {
     ..interceptors.add(InterceptorsWrapper(
         onRequest: (RequestOptions options,
             RequestInterceptorHandler requestHandler) async {
-         // String token = await 
-          AuthServices.fetchToken().then((token) => 
-          {if (token != '') options.headers["Authorization"] = "Bearer " + token});
+          AuthServices.fetchToken().then((token) => {
+                if (token != '')
+                  options.headers["Authorization"] = "Bearer " + token
+              });
 
           requestHandler.next(options);
         },
@@ -35,11 +36,13 @@ class RestServices {
           if (error.response?.statusCode == 403) {
             // requestLock.lock()-> If no token, request token firstly and lock this interceptor
             // to prevent other request enter this interceptor.
-            _dio.interceptors.requestLock.lock();
-            _dio.interceptors.responseLock.lock();
+            //_dio.interceptors.requestLock.lock();
+            //_dio.interceptors.responseLock.lock();
           }
           errorHandler.next(error);
-        }));
+        }))
+        ..interceptors.add(QueuedInterceptor( 
+        ));
 
   // GET
   static Future<dynamic> fetch(String uri) async {

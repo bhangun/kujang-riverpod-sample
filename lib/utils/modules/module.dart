@@ -4,7 +4,6 @@ abstract class Module {
   String? name;
   List<Page> pages();
   void services();
-  //List<SingleChildWidget> providers();
   List routes();
 }
 

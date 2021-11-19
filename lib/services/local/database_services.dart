@@ -1,4 +1,5 @@
 //import 'package:f_logs/f_logs.dart';
+import 'package:f_logs/f_logs.dart' as log;
 import 'package:riverpod_sample/models/app_data.dart';
 import 'package:sembast/sembast.dart';
 
@@ -8,7 +9,7 @@ import 'local_db_constants.dart';
 class DatabaseServices {
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Flogs objects converted to Map
-  final _appsStore = intMapStoreFactory.store(DBConstants.STORE_NAME);
+  final _appsStore = intMapStoreFactory.store(DBConstants.storeName);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
@@ -24,7 +25,7 @@ class DatabaseServices {
   // Singleton accessor
   static DatabaseServices get db => _singleton;
 
-  token(String token) async {
+  saveToken(String token) async {
     await _appsStore.record(0).add(await _db, {'id_token': token});
   }
 
@@ -42,7 +43,7 @@ class DatabaseServices {
       value = v.value;
       token = value['id_token'].toString();
     } catch (e) {
-      //FLog.info(text: '++++++++++>' + value.toString());
+      log.FLog.info(text: e.toString());
     }
     return token;
   }
@@ -53,20 +54,20 @@ class DatabaseServices {
   }
 
   Future<Map<String, Object?>> fetch(String key) async {
-    print('>>>>>>>>>'+key);
+ 
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(key));
     Map<String, Object?>? value ;
-    print('?????????>'+finder.toString());
+ 
     try{
         value =(await _appsStore.findFirst(await _db, finder: finder))!.value;
-        print('<><><><><><>'+value.toString());
+  
     }catch(e){
-      print(e.toString());
+     
       value = {'id_token':''};
     }
-    print('<><><2><><><>'+value.toString());
+  
     return value;
   }
 
@@ -100,7 +101,7 @@ class DatabaseServices {
     //creating finder
     final finder = Finder(
         filter: Filter.and(filters),
-        sortOrders: [SortOrder(DBConstants.FIELD_ID)]);
+        sortOrders: [SortOrder(DBConstants.fieldId)]);
 
     final recordSnapshots = await _appsStore.find(
       await _db,
@@ -130,12 +131,3 @@ class DatabaseServices {
     }).toList();
   }
 }
-
-/* {
-  store: "notes", 
-  key: 2, 
-  value: {title: "Welcome to NotePad kjbnkjnj", 
-    content: "is the same in all tabs", 
-    date: 1615207021001
-    }
-} */

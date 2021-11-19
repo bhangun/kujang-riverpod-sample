@@ -26,12 +26,6 @@ class DioErrorUtil {
         case DioErrorType.sendTimeout:
           errorDescription = "Send timeout in connection with API server";
           break;
-        case DioErrorType.connectTimeout:
-          errorDescription = "Connection Timeout";
-          break;
-        case DioErrorType.sendTimeout:
-          errorDescription = "Timeout when send data";
-          break;
       }
     } else {
       errorDescription = "Unexpected error occured";

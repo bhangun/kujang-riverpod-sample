@@ -217,16 +217,16 @@ class MatThemeColors {
   });
 
   static const MaterialColor green = MaterialColor(_greenPrimaryValue,<int, Color>{
-    50: const Color(0xFFf2f8ef),
-    100: const Color(0xFFdfedd8),
-    200: const Color(0xFFc9e2be),
-    300: const Color(0xFFb3d6a4),
-    400: const Color(0xFFa3cd91),
-    500: const Color(0xFF93c47d),
-    600: const Color(0xFF8bbe75),
-    700: const Color(0xFF80b66a),
-    800: const Color(0xFF76af60),
-    900: const Color(0xFF64a24d)
+    50:  Color(0xFFf2f8ef),
+    100:  Color(0xFFdfedd8),
+    200:  Color(0xFFc9e2be),
+    300:  Color(0xFFb3d6a4),
+    400:  Color(0xFFa3cd91),
+    500:  Color(0xFF93c47d),
+    600:  Color(0xFF8bbe75),
+    700:  Color(0xFF80b66a),
+    800:  Color(0xFF76af60),
+    900:  Color(0xFF64a24d)
   });
 
   static const MaterialColor grey = MaterialColor( _greyPrimaryValue,

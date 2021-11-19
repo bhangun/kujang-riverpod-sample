@@ -37,8 +37,8 @@ static ThemeData darkTheme() {
   );
   final ThemeData base = ThemeData(
     brightness: Brightness.dark,
-    visualDensity: VisualDensity(vertical: 0.5, horizontal: 0.5),
-    primarySwatch: MaterialColor(
+    visualDensity: const VisualDensity(vertical: 0.5, horizontal: 0.5),
+    primarySwatch: const MaterialColor(
       0xFFF5E0C3,
       <int, Color>{
         50: Color(0x1a5D4524),
@@ -53,14 +53,11 @@ static ThemeData darkTheme() {
         900: Color(0xff2F1E06)
       },
     ),
-    accentColorBrightness: Brightness.dark,
     primaryColor: primaryColor,
     primaryColorDark: primaryColor,
     primaryColorLight: secondaryColor,
-    buttonColor: primaryColor,
     indicatorColor: Colors.white,
-    toggleableActiveColor: Color(0xFF6997DF),
-    accentColor: secondaryColor,
+    toggleableActiveColor: const Color(0xFF6997DF),
     canvasColor: const Color(0xFF202124),
     scaffoldBackgroundColor: const Color(0xFF202124),
     backgroundColor: const Color(0xFFB00020),
@@ -73,13 +70,11 @@ static ThemeData darkTheme() {
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),
     primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
-    accentTextTheme: _buildTextTheme(base.accentTextTheme),
   );
 }
 
 static ThemeData lightTheme() {
   Color primaryColor = MatThemeColors.green[600]!;
-  //Color(0xFFB00020);
   Color secondaryColor = MatThemeColors.lime[100]!;
   final ColorScheme colorScheme = const ColorScheme.light().copyWith(
     primary: primaryColor,
@@ -87,8 +82,8 @@ static ThemeData lightTheme() {
   );
   final ThemeData base = ThemeData(
     brightness: Brightness.light,
-    visualDensity: VisualDensity(vertical: 0.5, horizontal: 0.5),
-    primarySwatch: MaterialColor(
+    visualDensity: const VisualDensity(vertical: 0.5, horizontal: 0.5),
+    primarySwatch: const MaterialColor(
       0xFFF5E0C3,
       <int, Color>{
         50: Color(0x1a5D4524),
@@ -103,15 +98,12 @@ static ThemeData lightTheme() {
         900: Color(0xff2F1E06)
       },
     ),
-    accentColorBrightness: Brightness.dark,
     colorScheme: colorScheme,
     primaryColor: primaryColor,
-    buttonColor: primaryColor,
     indicatorColor: Colors.white,
     toggleableActiveColor: const Color(0xFF1E88E5),
     splashColor: Colors.white24,
     splashFactory: InkRipple.splashFactory,
-    accentColor: secondaryColor,
     canvasColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     backgroundColor: Colors.white,
@@ -124,7 +116,6 @@ static ThemeData lightTheme() {
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),
     primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
-    accentTextTheme: _buildTextTheme(base.accentTextTheme),
   );
   }
 }

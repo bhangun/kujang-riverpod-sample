@@ -15,16 +15,17 @@ class LocalDatabase {
   // Singleton accessor
   static LocalDatabase get db => _singleton;
 
+   // A private constructor. Allows us to create instances of LocalDatabase
+  // only from within the LocalDatabase class itself.
+  LocalDatabase._();
+
   // Completer is used for transforming synchronous code into asynchronous code.
   Completer<Database>? _dbOpenCompleter;
 
   // Key for encryption
-  var encryptionKey = "coba";
+  var encryptionKey = "to_be_change_key";
 
-  // A private constructor. Allows us to create instances of LocalDatabase
-  // only from within the LocalDatabase class itself.
-  LocalDatabase._();
-
+ 
   // Database object accessor
   Future<Database> get database async {
     // If completer is null, LocalDatabaseClass is newly instantiated, so database is not yet opened
@@ -45,16 +46,15 @@ class LocalDatabase {
     final appDocumentDir = await getApplicationDocumentsDirectory();
 
     // Path with the form: /platform-specific-directory/demo.db
-    final dbPath = join(appDocumentDir.path, DBConstants.DB_NAME);
+    final dbPath = join(appDocumentDir.path, DBConstants.dbName);
 
     // Check to see if encryption is set, then provide codec
     // else init normal db with path
-    var database;
+    Database database;
+
     if (encryptionKey.isNotEmpty) {
       // Initialize the encryption codec with a user password
       var codec = getXXTeaCodec(password: encryptionKey);
-
-      // var codec = getEncryptSembastCodec(password: encryptionKey);
 
       database = await databaseFactoryIo.openDatabase(dbPath, codec: codec);
 

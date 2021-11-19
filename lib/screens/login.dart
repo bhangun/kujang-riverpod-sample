@@ -105,7 +105,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
             ]),
         body: Column(children: [
           _body(context, _authBloc),
-          _showError ? showModal(context, _message) : Container(),
+          _showError ? showModal(context, _message, ()=>{}) : Container(),
         ]));
   }
 
@@ -117,7 +117,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SvgPicture.asset(
-            IMAGE_SPLASH,
+            imageSplash,
             width: 60,
             height: 60,
           ),

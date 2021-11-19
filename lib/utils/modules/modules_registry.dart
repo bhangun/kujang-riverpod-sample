@@ -12,11 +12,7 @@ class ModulesRegistry {
   // factory method to return the same object each time its needed
   factory ModulesRegistry() =>  _singleton;
 
-  //static late List<SingleChildWidget> _providerList =[];
-
-  ModulesRegistry._(){
-    //_registry();
-  }
+  ModulesRegistry._();
  
   static registry(){
     registerModules().forEach((m){
@@ -24,8 +20,6 @@ class ModulesRegistry {
           p.name = m.name;
           Modules.addPages(p);
         });
-
-       
     
         m.routes().forEach((r) {
           RoutesService.addRoutes(r);
@@ -33,9 +27,4 @@ class ModulesRegistry {
         m.services();
     });
   }
-
-
 }
-
-
-

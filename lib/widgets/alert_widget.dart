@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class KutAlert extends StatelessWidget {
+class KuAlert extends StatelessWidget {
   final String? title;
   final Function onCancel;
   final Function onOk;
   final String? content;
   final String cancelTitle;
   final String okTitle;
-  const KutAlert(
+  const KuAlert(
       {
       this.title,
       this.content,

@@ -1,7 +1,7 @@
 import 'module.dart';
 
 class Modules {
-  static var _pages  = <Page>[];
+  static final _pages  = <Page>[];
 
   static addPages(Page newPages){
     _pages.add(newPages);

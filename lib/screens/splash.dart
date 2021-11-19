@@ -27,7 +27,7 @@ class _Splashpagestate extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Center(child: SvgPicture.asset(IMAGE_SPLASH)),
+      child: Center(child: SvgPicture.asset(imageSplash)),
     );
   }
 

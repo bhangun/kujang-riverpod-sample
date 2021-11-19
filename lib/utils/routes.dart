@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_sample/services/apps_routes.dart';
+import '../services/apps_routes.dart';
 
 class RoutesService {
   static final RoutesService _singleton = RoutesService._();
@@ -7,7 +7,7 @@ class RoutesService {
 
   factory RoutesService() => _singleton;
 
-  static Map<String, Widget Function(BuildContext)> _routes = <String, WidgetBuilder>{};
+  static final Map<String, Widget Function(BuildContext)> _routes = <String, WidgetBuilder>{};
 
   static Future<RoutesService> get instance async{ 
     _routes.addAll(AppsRoutes.routes);

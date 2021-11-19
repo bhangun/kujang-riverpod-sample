@@ -21,7 +21,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool showEye;
 
   const TextFieldWidget({
-    // Key key,
+    Key? key,
     this.icon,
     this.hint,
     this.errorText,
@@ -51,23 +51,22 @@ class TextFieldWidget extends StatelessWidget {
         onFieldSubmitted: onFieldSubmitted,
         autofocus: autoFocus,
         textInputAction: inputAction,
-        obscureText: this.isObscure,
+        obscureText: isObscure,
         maxLength: 25,
-        keyboardType: this.inputType,
+        keyboardType: inputType,
         style: Theme.of(context).textTheme.bodyText1,
         decoration: InputDecoration(
-            hintText: this.hint,
+            hintText: hint,
             hintStyle: Theme.of(context)
                 .textTheme
                 .bodyText1!
                 .copyWith(color: hintColor),
             errorText: errorText,
             counterText: '',
-            icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+            icon: isIcon ? Icon(icon, color: iconColor) : null),
       ),
       showEye
           ? IconButton(splashRadius: 15,
-            color: Theme.of(context).buttonColor,
               onPressed: onEyePressed,
               icon: Icon(isEyeOpen! ? Icons.visibility : Icons.visibility_off))
           : Container()

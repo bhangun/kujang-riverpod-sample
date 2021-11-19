@@ -21,10 +21,11 @@ class AuthServices {
     if (data.runtimeType.toString() ==
         '_InternalLinkedHashMap<String, dynamic>') {
       String _token = data['id_token'];
-      DatabaseServices.db.token(_token);
+      DatabaseServices.db.saveToken(_token);
       return "SUCCESS";
-    } else
+    } else {
       return data;
+    }
   }
 
   static Future<String> fetchToken() async {
@@ -53,7 +54,7 @@ class AuthServices {
   /// GET activateAccount
   static activate(String key) async {
     var body = " ?key=";
-    await RestServices.post('activate' + "?key=" + key, body);
+    await RestServices.post('activate?key=' + key, body);
   }
 
   /// Path account/reset-password/finish
