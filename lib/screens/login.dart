@@ -41,6 +41,8 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   String _message = '';
 
+  bool _isLight = true;
+
   @override
   void initState() {
     super.initState();
@@ -70,11 +72,12 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
      _authBloc = ref.watch(authBloc);
-
+    var _settingBloc = ref.watch(settingsBloc);
     _errorText = _authBloc.errorMessage;
     _showError = _authBloc.showError;
     _message = ref.read(authBloc).errorMessage;
-  
+    _isLight = _settingBloc.isLightTheme;
+
     return Scaffold(
         primary: true,
         appBar: AppBar(
@@ -91,7 +94,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
               IconButton(
                   splashRadius: 15,
                   color: Theme.of(context).errorColor,
-                  icon: const Icon(Icons.brightness_6),
+                  icon: _isLight? const Icon(Icons.dark_mode): const Icon(Icons.light_mode),
                   onPressed: () => ref.read(settingsBloc).switchTheme()),
               IconButton(
                   splashRadius: 15,
