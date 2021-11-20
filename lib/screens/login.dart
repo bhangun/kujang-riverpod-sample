@@ -37,6 +37,8 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   String _errorText = '';
 
+  String _loginText ='';
+
   bool _showError = false;
 
   String _message = '';
@@ -72,7 +74,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     _authBloc = ref.watch(authBloc);
-    _errorText = _authBloc.errorMessage;
+    _loginText = _authBloc.loginMessage;
     _showError = _authBloc.showError;
     _message = ref.read(authBloc).errorMessage;
     _isLight = ref.watch(settingsBloc).isLightTheme;
@@ -105,7 +107,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
             ]),
         body: Column(children: [
           _body(context, _authBloc),
-          _showError ? showModal(context, _message, ()=>{}) : Container(),
+          _showError ? showModal(context, _message, () => {}) : Container(),
         ]));
   }
 
@@ -139,7 +141,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
         },
-        errorText: _errorText,
+        errorText: _loginText,
       );
 
   Widget _passwordField() => TextFieldWidget(

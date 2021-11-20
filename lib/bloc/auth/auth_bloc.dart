@@ -72,34 +72,31 @@ class AuthBloc extends ChangeNotifier {
   // actions:-------------------------------------------------------------------
   
   void setUserId(String value) {
-    username = value;
     _validateUserEmail(value);
+    username = value;
   }
 
   
   void setPassword(String value) {
-    password = value;
     _validatePassword(value);
+    password = value;
   }
 
   
   void setConfirmPassword(String value) {
+    _validateConfirmPassword(value);
     confirmPassword = value;
   }
 
   void _validateUserEmail(String value) {
     // Regex for email validation
-    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
-        "\\@" +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-        "(" +
-        "\\." +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-        ")+";
+    String p = "[a-zA-Z0-9+._%-+]{1,256}\\@" 
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" 
+        "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+";
 
-    String p2 = "^[_.@A-Za-z0-9-]*\$";
+    //String p2 = "^[_.@A-Za-z0-9-]*\$";
 
-    RegExp regExp = new RegExp(p);
+    RegExp regExp = RegExp(p);
 
     if (value.isEmpty) {
       loginMessage = "empty";
@@ -109,6 +106,9 @@ class AuthBloc extends ChangeNotifier {
       showError = true;
       loginMessage = 'unauthorized';
     }
+
+    print(loginMessage);
+    notifyListeners();
   }
 
   void _validatePassword(String value) {
@@ -119,6 +119,7 @@ class AuthBloc extends ChangeNotifier {
     } else {
       passwordMessage = '';
     }
+    notifyListeners();
   }
 
   void _validateConfirmPassword(String value) {
@@ -157,8 +158,6 @@ class AuthBloc extends ChangeNotifier {
         return AppLocalizations.of(context)!.errorNetwork;
     }
   }
-
-
   
   signIn() async {
     loading = true;
@@ -185,17 +184,14 @@ class AuthBloc extends ChangeNotifier {
       }
   }
 
-  
   Future register() async {
     loading = true;
   }
-
   
   Future gotoHome() async {
     if (loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
   }
 
-  
   Future forgotPassword() async {
     loading = true;
   }
@@ -207,7 +203,4 @@ class AuthBloc extends ChangeNotifier {
     NavigationServices.navigateTo(AppsRoutes.login);
     loading = false;
   }
-
-
-  dispose() {}
 }
