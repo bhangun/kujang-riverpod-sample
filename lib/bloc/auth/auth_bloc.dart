@@ -94,20 +94,18 @@ class AuthBloc extends ChangeNotifier {
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" 
         "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+";
 
-    //String p2 = "^[_.@A-Za-z0-9-]*\$";
-
     RegExp regExp = RegExp(p);
 
     if (value.isEmpty) {
       loginMessage = "empty";
     } else if (regExp.hasMatch(value)) {
-      loginMessage = 'username';
+      showError = true;
+      loginMessage = '';
     } else {
       showError = true;
       loginMessage = 'unauthorized';
     }
 
-    print(loginMessage);
     notifyListeners();
   }
 
@@ -148,10 +146,12 @@ class AuthBloc extends ChangeNotifier {
         return "";
     }
   }
-  String message(context) {
+   message(context) {
+    errorMessage =  AppLocalizations.of(context)!.errorUnauthorized;
     switch (errorMessage) {
       case "unauthorized":
-        return AppLocalizations.of(context)!.errorUnauthorized;
+        errorMessage =  AppLocalizations.of(context)!.errorUnauthorized;
+        break;
       case "username":
         return AppLocalizations.of(context)!.errorUsername;
       default:
@@ -159,11 +159,15 @@ class AuthBloc extends ChangeNotifier {
     }
   }
   
-  signIn() async {
-    loading = true;
-    success = false;
+  signIn() {
+    //loading = true;
+    //success = false;
+    //message(context);
     AuthServices.login(username, password, rememberMe)
         .then((v) => _loggedin(v));
+   errorMessage = 'ini error';
+
+    //notifyListeners();    
   }
 
   void _loggedin(value) {

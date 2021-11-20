@@ -35,14 +35,6 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   bool _isObscure = true;
 
-  String _errorText = '';
-
-  String _loginText ='';
-
-  bool _showError = false;
-
-  String _message = '';
-
   bool _isLight = true;
 
   @override
@@ -74,9 +66,6 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     _authBloc = ref.watch(authBloc);
-    _loginText = _authBloc.loginMessage;
-    _showError = _authBloc.showError;
-    _message = ref.read(authBloc).errorMessage;
     _isLight = ref.watch(settingsBloc).isLightTheme;
 
     return Scaffold(
@@ -105,31 +94,26 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
                   icon: const Icon(Icons.flag),
                   onPressed: () => _showLocales(ref.read(settingsBloc))),
             ]),
-        body: Column(children: [
-          _body(context, _authBloc),
-          _showError ? showModal(context, _message, () => {}) : Container(),
-        ]));
+        body: Material(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset(
+                  imageSplash,
+                  width: 60,
+                  height: 60,
+                ),
+                const SizedBox(height: 24.0),
+                _userIdField(),
+                _passwordField(),
+                _forgotPasswordButton(_authBloc.forgotPassword),
+                _signInButton(),
+              ],
+            )));
   }
-
-  _body(BuildContext context, AuthBloc authBloc) => Material(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SvgPicture.asset(
-            imageSplash,
-            width: 60,
-            height: 60,
-          ),
-          const SizedBox(height: 24.0),
-          _userIdField(),
-          _passwordField(),
-          _forgotPasswordButton(authBloc.forgotPassword),
-          _signInButton(authBloc.signIn),
-        ],
-      ));
 
   Widget _userIdField() => TextFieldWidget(
         hint: AppLocalizations.of(context)!.email,
@@ -141,7 +125,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
         },
-        errorText: _loginText,
+        errorText: _authBloc.loginMessage,
       );
 
   Widget _passwordField() => TextFieldWidget(
@@ -152,7 +136,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         iconColor: Colors.black54,
         textController: _passwordController,
         focusNode: _passwordFocusNode,
-        errorText: _errorText,
+        errorText: _authBloc.passwordMessage + _authBloc.showError.toString(),
         onEyePressed: () => _onEyePressed(),
         isEyeOpen: _isEyeOpen,
         showEye: true,
@@ -165,9 +149,12 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
           child: Text(AppLocalizations.of(context)!.forgot_password),
           onPressed: () => forgotPassword));
 
-  Widget _signInButton(signIn) => ElevatedButton(
+  Widget _signInButton() => ElevatedButton(
         key: const Key('user_sign_button'),
-        onPressed: () => signIn,
+        onPressed: () {
+          ref.read(authBloc).signIn();
+          showModal(context, _authBloc.errorMessage, () => {});
+        },
         child: Text(AppLocalizations.of(context)!.sign_in),
       );
 

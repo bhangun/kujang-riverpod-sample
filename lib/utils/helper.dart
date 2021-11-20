@@ -26,7 +26,7 @@ instantToDate(DateTime date){
 showModal(context, text, onPressed) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         action: SnackBarAction(
           label: 'Action',
-          onPressed: () => onPressed
+          onPressed: () => {}//onPressed
         ),
         content: Text(text),
         duration: const Duration(milliseconds: 1500),
