@@ -17,7 +17,7 @@ class UserServices {
     // You can comment below or remove it to change using RestServices 
     List<User> data =
         json.decode(await rootBundle.loadString('assets/data/users.json'));
-
+print(data);
     // You can uncomment below using RestServices to your respository instead
     // List<User> data = await RestServices.fetch('/api/users');
     return User.listFromJson(data);

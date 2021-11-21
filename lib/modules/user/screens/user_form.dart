@@ -38,6 +38,8 @@ class _UserFormState extends ConsumerState<UserForm> {
   Widget build(BuildContext context) {
     _userBloc = ref.watch(userBloc);
 
+    AsyncValue<List<User>> _userProv = ref.watch(userProv);
+
     _username.addListener(() {
       _userBloc.setUser(User(username: _username.text));
     });
@@ -70,21 +72,17 @@ class _UserFormState extends ConsumerState<UserForm> {
         appBar: AppBar(
           title: Text(_userBloc.formTitle),
         ),
-        body: _body(),
+        body: _userProv.when(
+            loading: () => const CircularProgressIndicator(),
+            error: (err, stack) => Text('Error: $err'),
+            data: (config) {
+              return Material(child: _form());
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _userBloc.save(),
           tooltip: 'Add',
           child: const Icon(Icons.save),
         ));
-  }
-
-  _body() {
-    return userProv.when(
-        loading: () => const CircularProgressIndicator(),
-        error: (err, stack) => Text('Error: $err'),
-        data: (config) {
-          return Material(child: _form());
-        });
   }
 
   _form() {

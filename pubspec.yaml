@@ -79,19 +79,12 @@ dependencies:
 
   cached_network_image: ^3.0.0
 
-
   path_provider: ^2.0.1
 
   flutter_svg: ^0.23.0+1
 
   json_annotation: ^4.0.0
-
-  #another_flushbar: ^1.10.13
-
-  flutter_slidable: ^1.1.0
-
   
-  built_value: ^8.0.2
 
   # plugin provides an API for querying information about an application package.
   package_info_plus: ^1.0.3

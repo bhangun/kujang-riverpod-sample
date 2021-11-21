@@ -10,12 +10,13 @@ import 'package:riverpod_sample/modules/user/services/user_services.dart';
 
 final userBloc = ChangeNotifierProvider<UserBloc>((ref) => UserBloc());
 
-AsyncValue<List<User>> userProv = FutureProvider<List<User>>((ref) async {
+final userProv = FutureProvider<List<User>>((ref) async {
   final content = json.decode(
     await rootBundle.loadString('assets/data/users.json'),
-  ) as List<User>;
+  );
   return User.listFromJson(content);
-}) as AsyncValue<List<User>>;
+  //return await UserServices.users();
+});
 
 class UserBloc extends ChangeNotifier {
   bool isListEmpty = true;
@@ -161,6 +162,11 @@ class UserBloc extends ChangeNotifier {
     });
   }
 
+  Future<List<User>> usersList() async{
+      return await UserServices.users();
+  }
+
+  
   /* users() {
     return FutureProvider<List<User>>((ref) async {
       final content = json.decode(
