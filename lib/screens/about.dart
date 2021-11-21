@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_sample/widgets/appbar_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutPage extends StatefulWidget {
@@ -29,8 +28,8 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KutAppBar(
-        title: 'About Page',
+      appBar: AppBar(
+        title: const Text('About Page'),
       ),
       body: Center(
           child: Column(children: [

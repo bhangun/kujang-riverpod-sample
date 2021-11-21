@@ -48,9 +48,23 @@ class DatabaseServices {
     return token;
   }
 
+  Future<dynamic> fetchObject(key) async {
+    final finder = Finder(filter: Filter.byKey(key));
+    try {
+      return  (await _appsStore.find(await _db, finder: finder)).first;
+    } catch (e) {
+      log.FLog.info(text: e.toString());
+    }
+  }
+
   // DB functions:--------------------------------------------------------------
   Future<int> insert(AppData appData) async {
     return await _appsStore.add(await _db, appData.toMap());
+  }
+
+  /// 
+  Future<int> insertObject(Map<String, dynamic> data) async {
+    return await _appsStore.add(await _db, data);
   }
 
   Future<Map<String, Object?>> fetch(String key) async {

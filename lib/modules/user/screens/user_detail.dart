@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_sample/modules/user/bloc/user_bloc.dart';
 
-import '../store/user_store.dart';
+class UserDetail extends ConsumerStatefulWidget {
+  const UserDetail({Key? key}) : super(key: key);
 
-
-class UserDetail extends StatefulWidget {
   @override
   _UserDetailState createState() => _UserDetailState();
 }
 
-class _UserDetailState extends State<UserDetail> {
-  late UserStore _userStore = UserStore();
+class _UserDetailState extends ConsumerState<UserDetail> {
+  UserBloc _userBloc = UserBloc();
 
   @override
   void dispose() {
@@ -18,33 +19,34 @@ class _UserDetailState extends State<UserDetail> {
 
   @override
   Widget build(BuildContext context) {
+   _userBloc = ref.watch(userBloc);
    
     return Scaffold(
-            appBar: AppBar(title: Text('User Detail')),
-            body: _userStore.isItemEmpty
-                ? Center(child: Text('User data are empty'))
+            appBar: AppBar(title: const Text('User Detail')),
+            body: _userBloc.isItemEmpty
+                ? const Center(child: Text('User data are empty'))
                 : userDetail(),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => _userStore.update(),
+              onPressed: () => _userBloc.update(),
               tooltip: 'Edit',
-              child: Icon(Icons.edit),
+              child: const Icon(Icons.edit),
             ));
   }
 
   userDetail() {
     return ListView(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         children: <Widget>[
-          SizedBox(height: 100.0),
+          const SizedBox(height: 100.0),
           Icon(Icons.person, size: 100, color: Colors.blue[500]),
           Column(children: <Widget>[
-            Text(_userStore.itemDetail!.username!),
-            Text(_userStore.itemDetail!.firstName!),
-            Text(_userStore.itemDetail!.lastName!),
-            Text(_userStore.itemDetail!.email!),
-            Text(_userStore.itemDetail!.password!),
-            Text(_userStore.itemDetail!.phone!),
-            //Text(_userStore.itemDetail!.userStatus!),
+            Text(_userBloc.user!.username!),
+            Text(_userBloc.user!.firstName!),
+            Text(_userBloc.user!.lastName!),
+            Text(_userBloc.user!.email!),
+            Text(_userBloc.user!.password!),
+            Text(_userBloc.user!.phone!),
+            //Text(_userBloc.user!.userStatus!),
           ])
         ]);
   }

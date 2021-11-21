@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:f_logs/f_logs.dart';
+import 'package:flutter/services.dart';
+import 'package:riverpod_sample/models/app_data.dart';
+import 'package:riverpod_sample/modules/user/model/user.dart';
 
 import 'local/database_services.dart';
 import 'network/rest_services.dart';
@@ -9,14 +12,14 @@ import 'network/rest_services.dart';
 class AuthServices {
   /// Path authenticate,
   /// Post authorize & Get isAuthorize
-  static Future<String> login(String _username, String _password,
+  static Future<int> login(String _username, String _password,
       [bool _rememberMe = false]) async {
-    var body = jsonEncode({
+ 
+    /* var body = jsonEncode({
       "username": _username,
       "password": _password,
       "rememberMe": _rememberMe
     });
-
     var data = await RestServices.post('authenticate', body);
     if (data.runtimeType.toString() ==
         '_InternalLinkedHashMap<String, dynamic>') {
@@ -25,7 +28,25 @@ class AuthServices {
       return "SUCCESS";
     } else {
       return data;
+    } 
+    */
+
+    
+    for (var user in await userStatic()) {
+      if (user.username == _username && user.password == _password) {
+        return await DatabaseServices.db.insertObject({"user":user.id});
+        //return 'SUCCESS';
+      }
     }
+    return 0;
+    //return 'unauthorized';
+  }
+
+  
+
+  static Future<List<User>> userStatic() async{
+    return  User.listFromJson(
+        json.decode(await rootBundle.loadString('assets/data/users.json')));
   }
 
   static Future<String> fetchToken() async {

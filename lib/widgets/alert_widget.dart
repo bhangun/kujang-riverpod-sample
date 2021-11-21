@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class KuAlert extends StatelessWidget {
+class KAlert extends StatelessWidget {
   final String? title;
   final Function onCancel;
   final Function onOk;
   final String? content;
   final String cancelTitle;
   final String okTitle;
-  const KuAlert(
-      {
-      this.title,
+
+  const KAlert({Key? key, this.title,
       this.content,
       required this.onCancel,
       required this.onOk,
       this.cancelTitle='Cancel',
-      this.okTitle='Ok'});
-     
+      this.okTitle='Ok'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +23,14 @@ class KuAlert extends StatelessWidget {
       title: Text(title!),
       content: Text(content!),
       actions: <Widget>[
-        /* FlatButton(
+        TextButton(
           child: Text(cancelTitle),
-          onPressed: onCancel,
+          onPressed: ()=> onCancel,
         ),
-        FlatButton(
+        TextButton(
           child: Text(okTitle),
-          onPressed: onOk,
-        ), */
+          onPressed: ()=> onOk,
+        ),
       ],
     );
   }

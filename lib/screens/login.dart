@@ -19,14 +19,12 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _Loginpagestate extends ConsumerState<LoginScreen> {
-  // text controllers
-  final TextEditingController _userEmailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
-  //focus node
   late FocusNode _passwordFocusNode;
 
-  //form key
   final _formKey = GlobalKey<FormState>();
 
   AuthBloc _authBloc = AuthBloc();
@@ -43,9 +41,9 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
     _passwordFocusNode = FocusNode();
 
-    _userEmailController.addListener(() {
+    _usernameController.addListener(() {
       // this will be called whenever user types in some value
-      _authBloc.setUserId(_userEmailController.text);
+      _authBloc.setUserId(_usernameController.text);
     });
 
     _passwordController.addListener(() {
@@ -57,7 +55,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   @override
   void dispose() {
     // Clean up the controller when the Widget is removed from the Widget tree
-    _userEmailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
@@ -92,7 +90,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
                   splashRadius: 15,
                   color: Theme.of(context).errorColor,
                   icon: const Icon(Icons.flag),
-                  onPressed: () => _showLocales(ref.read(settingsBloc))),
+                  onPressed: () => _showLocales()),
             ]),
         body: Material(
             key: _formKey,
@@ -107,20 +105,20 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
                   height: 60,
                 ),
                 const SizedBox(height: 24.0),
-                _userIdField(),
+                _usernameField(),
                 _passwordField(),
-                _forgotPasswordButton(_authBloc.forgotPassword),
+                _forgotPasswordButton(),
                 _signInButton(),
               ],
             )));
   }
 
-  Widget _userIdField() => TextFieldWidget(
+  Widget _usernameField() => TextFieldWidget(
         hint: AppLocalizations.of(context)!.email,
         inputType: TextInputType.emailAddress,
         icon: Icons.person,
         iconColor: Colors.black54,
-        textController: _userEmailController,
+        textController: _usernameController,
         inputAction: TextInputAction.next,
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -136,23 +134,23 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         iconColor: Colors.black54,
         textController: _passwordController,
         focusNode: _passwordFocusNode,
-        errorText: _authBloc.passwordMessage + _authBloc.showError.toString(),
+        errorText: _authBloc.passwordMessage,
         onEyePressed: () => _onEyePressed(),
         isEyeOpen: _isEyeOpen,
         showEye: true,
       );
 
-  Widget _forgotPasswordButton(forgotPassword) => Align(
+  Widget _forgotPasswordButton() => Align(
       alignment: FractionalOffset.centerRight,
       child: TextButton(
           key: const Key('user_forgot_password'),
           child: Text(AppLocalizations.of(context)!.forgot_password),
-          onPressed: () => forgotPassword));
+          onPressed: () => ref.read(authBloc).forgotPassword()));
 
   Widget _signInButton() => ElevatedButton(
         key: const Key('user_sign_button'),
         onPressed: () {
-          ref.read(authBloc).signIn();
+          ref.read(authBloc).signIn(context);
           showModal(context, _authBloc.errorMessage, () => {});
         },
         child: Text(AppLocalizations.of(context)!.sign_in),
@@ -165,19 +163,20 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
     });
   }
 
-  _showLocales(bloc) {
+  _showLocales() {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) => SizedBox(
             height: 200,
             child: ListView(
               children: [
-                _localeBtn('Bahasa', 'ID', bloc),
-                _localeBtn('English', 'EN', bloc),
+                _localeBtn('Bahasa', 'ID'),
+                _localeBtn('English', 'EN'),
               ],
             )));
   }
 
-  _localeBtn(title, key, bloc) =>
-      TextButton(child: Text(title), onPressed: () => bloc.switchLocale(key));
+  _localeBtn(title, key) => TextButton(
+      child: Text(title),
+      onPressed: () => ref.read(settingsBloc).switchLocale(key));
 }

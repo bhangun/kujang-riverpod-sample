@@ -147,6 +147,7 @@ flutter:
   - assets/images/
   - assets/icons/
   - assets/fonts/
+  - assets/data/
   # example:
   # fonts:
   #   - family: Schyler

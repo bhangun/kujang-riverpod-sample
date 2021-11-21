@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod_sample/widgets/progress_indicator_widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class MobileLayout extends StatelessWidget {
@@ -39,7 +38,7 @@ class MobileLayout extends StatelessWidget {
           ),
           Visibility(
             visible: showProgress!,
-            child: const CustomProgressIndicatorWidget(),
+            child: const CircularProgressIndicator(),
           )
         ]);
   }

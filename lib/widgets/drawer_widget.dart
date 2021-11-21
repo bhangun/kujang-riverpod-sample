@@ -1,64 +1,54 @@
-// import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_sample/modules/user/services/user_routes.dart';
 
-class KutDrawer extends StatefulWidget {
+class KDrawer extends StatefulWidget {
+  final String? firstName;
+  final String? email;
+
+  const KDrawer({Key? key,
+  this.firstName,
+  this.email
+  }) : super(key: key);
+  
+
   @override
-  _KutDrawerState createState() => _KutDrawerState();
+  _KDrawerState createState() => _KDrawerState();
 }
 
-class _KutDrawerState extends State<KutDrawer> {
-  //String _firstName = '';
-  //String _email = '';
-
-  //UserStore _userBloc = UserStore();
+class _KDrawerState extends State<KDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    /* try{
-   
-      _userBloc.getProfile();
-      _firstName = _userBloc.userProfile.firstName;
-      _email = _userBloc.userProfile.email;
-    }catch(e){
-      FLog.info(text:e.toString());
-    } */
-    return   Drawer(
+
+    return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: _listMenu(context),
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text(widget.firstName!),
+            accountEmail: Text(widget.email!),
+            currentAccountPicture: const CircleAvatar(
+                // backgroundImage: ,
+                ),
+          ),
+          _listTitle("Register", context, "/users"),
+          _listTitle("User", context, UserRoutes.userList),
+          _listTitle("Dashboard", context, "/dashboard"),
+          _listTitle("Logout", context, "/login")
+        ],
       ),
     );
   }
 
-  Widget _header(String imgPath) => UserAccountsDrawerHeader(
-        accountName: Text("_firstName"),
-        accountEmail: Text("_email"),
-        currentAccountPicture: CircleAvatar(
-            // backgroundImage: ,
-            ),
-      );
-
-  Widget _listTitle(String name, BuildContext context,String path) => ListTile(
+  Widget _listTitle(String name, BuildContext context, String path) => ListTile(
         title: Text(
           name,
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.person,
           color: Colors.blue,
         ),
-         onTap: () => Navigator.pushReplacementNamed(context, path),
+        onTap: () => Navigator.pushReplacementNamed(context, path),
       );
-
-  _listMenu(BuildContext context) {
-    var list = <Widget>[];
-    list.add(_header(""));
-    list.add(_listTitle("Register", context,"/users"));
-    list.add(_listTitle("User", context,UserRoutes.userList));
-    list.add(_listTitle("Dashboard", context,"/dashboard"));
-    // kutilang-needle-add-drawer - Don't remove, used by kutilang to add new list
-    list.add(_listTitle("Logout", context,"/login"));
-    return list;
-  }
 }

@@ -1,50 +1,51 @@
-import 'package:riverpod_sample/models/user.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_sample/modules/user/model/user.dart';
 import 'package:riverpod_sample/services/navigation.dart';
 import 'package:riverpod_sample/modules/user/services/user_routes.dart';
 import 'package:riverpod_sample/modules/user/services/user_services.dart';
 
-class UserStore {
+final userBloc = ChangeNotifierProvider<UserBloc>((ref) => UserBloc());
+
+AsyncValue<List<User>> userProv = FutureProvider<List<User>>((ref) async {
+  final content = json.decode(
+    await rootBundle.loadString('assets/data/users.json'),
+  ) as List<User>;
+  return User.listFromJson(content);
+}) as AsyncValue<List<User>>;
+
+class UserBloc extends ChangeNotifier {
   bool isListEmpty = true;
-  
+
   bool isItemEmpty = true;
-  
+
   bool isUpdated = false;
-  
+
   bool isDeleted = false;
 
-  
-  String errorMessage='error';
-  
+  String errorMessage = 'error';
+
   bool showError = false;
-  
+
   String title = '';
 
-  
   int totalItem = 0;
-  
+
   bool success = false;
-  
+
   bool loading = false;
-  
+
   int position = 0;
 
-  
-  User? itemDetail;
+  User? user;
 
   List<User>? userList;
-  
-/*   [object Object]? username;
-  [object Object]? firstName;
-  [object Object]? lastName;
-  [object Object]? email;
-  [object Object]? password;
-  [object Object]? phone;
-  [object Object]? userStatus;
-     */
 
-  // actions:-------------------------------------------------------------------
+  String get formTitle => isUpdated ? title = 'Update User' : 'Create User';
 
-  String get formTitle => isUpdated? title='Update User':'Create User'; 
   /* 
   void setUsername([object Object] value) {
     username = value;
@@ -74,58 +75,57 @@ class UserStore {
     userStatus = value;
   } */
 
-  
   itemTap(int _position) {
     try {
       position = _position;
-      itemDetail = userList![position];
+      user = userList![position];
       isItemEmpty = false;
       NavigationServices.navigateTo(UserRoutes.userDetail);
-
     } catch (e) {
       isItemEmpty = true;
     }
   }
 
-  
   add() {
-    itemDetail = null;
+    user = null;
     isUpdated = false;
     NavigationServices.navigateTo(UserRoutes.userForm);
   }
 
-  
   save() {
     loading = true;
     success = false;
     try {
-      isUpdated ? UserServices.updateUser(_toUser())
-          :UserServices.createUser(_toUser());
+      isUpdated
+          ? UserServices.updateUser(_toUser())
+          : UserServices.createUser(_toUser());
       NavigationServices.navigateTo(UserRoutes.userList);
       loading = false;
       success = true;
       getUserList();
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
 
-  
   delete(int id) {
     loading = true;
     success = false;
     try {
       UserServices.deleteUser(id);
-      isDeleted =true;
+      isDeleted = true;
       loading = false;
       success = true;
       getUserList();
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
 
-  
+  setUser(User user) {
+    this.user = user;
+  }
+
   update() {
     loading = true;
     success = false;
@@ -135,7 +135,7 @@ class UserStore {
       loading = false;
       success = true;
       getUserList();
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -152,13 +152,26 @@ class UserStore {
     } catch (e) {
       showError = true;
       errorMessage = 'Data Empty';
-      print(e.toString());
     }
-
   }
 
-  _setUserList(List<User> data){
-    if (data != null) {
+  FutureProvider<List<User>> users(){
+    return FutureProvider<List<User>>((ref) async {
+      return await UserServices.users();
+    });
+  }
+
+  /* users() {
+    return FutureProvider<List<User>>((ref) async {
+      final content = json.decode(
+        await rootBundle.loadString('assets/data/users.json'),
+      ) as List<User>;
+      return User.listFromJson(content);
+    }) as AsyncValue<List<User>>;
+  } */
+
+  _setUserList(List<User> data) {
+    if (data.isNotEmpty) {
       userList = data;
       totalItem = data.length;
     }
@@ -166,17 +179,17 @@ class UserStore {
 
   User _toUser() {
     return User(
-    id: isUpdated ? itemDetail!.id : null,
-  /*   username: username, 
+      id: isUpdated ? user!.id : null,
+      /*   username: username, 
     firstName: firstName, 
     lastName: lastName, 
     email: email, 
     password: password, 
     phone: phone, 
-    userStatus: userStatus, */ );
+    userStatus: userStatus, */
+    );
   }
 
-  
   viewList() {
     getUserList();
     NavigationServices.navigateTo(UserRoutes.userList);

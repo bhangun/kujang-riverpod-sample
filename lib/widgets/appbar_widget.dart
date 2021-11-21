@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
-class KutAppBar extends StatelessWidget implements PreferredSizeWidget {
+class KAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final VoidCallback? onLogout;
-  const KutAppBar({this.title, this.onLogout});
+
+  const KAppBar({Key? key, this.title, this.onLogout}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-            preferredSize: Size.fromHeight(100.0),
+            preferredSize: const Size.fromHeight(100.0),
             child: AppBar(
               title: Text(title!),
               actions: <Widget>[
                 IconButton(
                   splashRadius: 15,
-                  onPressed: () => onLogout,//context.read<AuthBloc>().logout(),
-                  icon: Icon(
+                  onPressed: () => onLogout,
+                  icon: const Icon(
                     Icons.power_settings_new,
                   ),
                 )
@@ -24,11 +25,6 @@ class KutAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
   }
 
-  logout(BuildContext context){
-    print('<><>logout<><>');
-    //context.read<AuthBloc>().add(LoggedOut());
-  }
-
   @override
-  Size get preferredSize => Size.fromHeight(100.0);
+  Size get preferredSize => const Size.fromHeight(100.0);
 }

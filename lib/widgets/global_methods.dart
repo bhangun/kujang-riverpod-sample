@@ -1,6 +1,4 @@
-//import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-
 
 listMenuDrawer(){
    var list = <Widget>[];
@@ -12,9 +10,9 @@ Widget listTitle(String name) =>
     ListTile(
       title: Text(
         name,
-        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
+        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
       ),
-      leading: Icon(
+      leading: const Icon(
         Icons.person,
         color: Colors.blue,
       ),
@@ -29,17 +27,6 @@ Widget header(String accountName,String accountEmail,String imgPath) =>
         accountEmail,
       ),
       currentAccountPicture: CircleAvatar(
-        backgroundImage: new AssetImage(imgPath),
+        backgroundImage:  AssetImage(imgPath),
       ),
     );
-
- // General Methods:-----------------------------------------------------------
-  showErrorMessage(BuildContext context, String message) {
-    Future.delayed(Duration(milliseconds: 0), () {
-     /*  if (message != null) {
-        
-      } */
-    });
-
-    return Container();
-  }

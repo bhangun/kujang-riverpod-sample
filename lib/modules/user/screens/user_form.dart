@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_sample/modules/user/bloc/user_bloc.dart';
 
-import '../store/user_store.dart';
-import 'package:riverpod_sample/widgets/global_methods.dart';
-import 'package:riverpod_sample/widgets/progress_indicator_widget.dart';
-import '../../../models/user.dart';
+import '../model/user.dart';
 
-class UserForm extends StatefulWidget {
+class UserForm extends ConsumerStatefulWidget {
   final User? data;
-  UserForm({this.data});
+  const UserForm({Key? key, this.data}) : super(key: key);
+
   @override
   _UserFormState createState() => _UserFormState();
 }
 
-class _UserFormState extends State<UserForm> {
-  
-  
+class _UserFormState extends ConsumerState<UserForm> {
   final _username = TextEditingController();
   final _firstName = TextEditingController();
   final _lastName = TextEditingController();
@@ -23,8 +21,7 @@ class _UserFormState extends State<UserForm> {
   final _phone = TextEditingController();
   final _userStatus = TextEditingController();
 
-  late UserStore _userStore = UserStore();
-
+  var _userBloc = UserBloc();
   @override
   void dispose() {
     _username.dispose();
@@ -39,123 +36,78 @@ class _UserFormState extends State<UserForm> {
 
   @override
   Widget build(BuildContext context) {
+    _userBloc = ref.watch(userBloc);
 
-   
-    /* 
     _username.addListener(() {
-      _userStore.setUsername(_username.text);
-    }); 
+      _userBloc.setUser(User(username: _username.text));
+    });
+
     _firstName.addListener(() {
-      _userStore.setFirstName(_firstName.text);
-    }); 
+      _userBloc.setUser(User(username: _firstName.text));
+    });
+
     _lastName.addListener(() {
-      _userStore.setLastName(_lastName.text);
-    }); 
+      _userBloc.setUser(User(username: _lastName.text));
+    });
+
     _email.addListener(() {
-      _userStore.setEmail(_email.text);
-    }); 
+      _userBloc.setUser(User(username: _email.text));
+    });
+
     _password.addListener(() {
-      _userStore.setPassword(_password.text);
-    }); 
+      _userBloc.setUser(User(username: _password.text));
+    });
+
     _phone.addListener(() {
-      _userStore.setPhone(_phone.text);
-    }); 
+      _userBloc.setUser(User(username: _phone.text));
+    });
+
     _userStatus.addListener(() {
-      _userStore.setUserStatus(_userStatus.text);
-    });  */
+      _userBloc.setUser(User(username: _userStatus.text));
+    });
 
-    return  Scaffold(
-            appBar: AppBar(
-              title: Text(_userStore.formTitle),
-            ),
-            body: _buildBody(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => _userStore.save(),
-              tooltip: 'Add',
-              child: Icon(Icons.save),
-            ));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(_userBloc.formTitle),
+        ),
+        body: _body(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _userBloc.save(),
+          tooltip: 'Add',
+          child: const Icon(Icons.save),
+        ));
   }
 
-  _buildBody() {
-    return Stack(
-      children: <Widget>[
-        _userStore.loading
-            ? CustomProgressIndicatorWidget()
-            : Material(child: _buildForm()),
-        _userStore.success
-            ? Container()
-            : showErrorMessage(context, '') 
-        //_userStore.isModified ? KutAlert() : Container(),
-      ],
-    );
+  _body() {
+    return userProv.when(
+        loading: () => const CircularProgressIndicator(),
+        error: (err, stack) => Text('Error: $err'),
+        data: (config) {
+          return Material(child: _form());
+        });
   }
 
-  _buildForm() {
+  _form() {
     return SafeArea(
         child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            children: _buildListChild()));
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            children: <Widget>[
+          const SizedBox(height: 120.0),
+          _textField(_username, 'Username'),
+          _textField(_firstName, 'Firstname'),
+          _textField(_lastName, 'Lastname'),
+          _textField(_email, 'Email'),
+          _textField(_password, 'Password'),
+          _textField(_phone, 'Phone'),
+          _textField(_userStatus, 'UserStatus')
+        ]));
   }
 
-  _buildListChild() {
-    return <Widget>[
-      SizedBox(height: 120.0),
-      TextField(
-        controller: _username,
+  _textField(controler, text) => TextField(
+        controller: controler,
         decoration: InputDecoration(
           filled: true,
-          labelText: 'Username',
+          labelText: text,
         ),
-      ),
-      
-      TextField(
-        controller: _firstName,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'FirstName',
-        ),
-      ),
-      
-      TextField(
-        controller: _lastName,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'LastName',
-        ),
-      ),
-      
-      TextField(
-        controller: _email,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'Email',
-        ),
-      ),
-      
-      TextField(
-        controller: _password,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'Password',
-        ),
-      ),
-      
-      TextField(
-        controller: _phone,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'Phone',
-        ),
-      ),
-      
-      TextField(
-        controller: _userStatus,
-        decoration: InputDecoration(
-          filled: true,
-          labelText: 'UserStatus',
-        ),
-      ),
-      
-    ];
-  }
+      );
 }
