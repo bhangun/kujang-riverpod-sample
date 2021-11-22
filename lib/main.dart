@@ -37,8 +37,7 @@ class KujangApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _settingsBloc = ref.watch(settingsBloc);
-    List<Locale> _supportedLocales = ref.read(_settingsBloc.supportedLocalesProvider);
-//List<Locale> _supportedLocales = ref.read(settingsBloc).supportedLocales; //ref.read(_settingsBloc.supportedLocalesProvider);
+    List<Locale> _supportedLocales = ref.read(settingsBloc).supportedLocales; 
 
     return MaterialApp(
       key: GlobalKey<NavigatorState>(),

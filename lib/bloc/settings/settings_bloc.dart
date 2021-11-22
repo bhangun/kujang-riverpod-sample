@@ -9,12 +9,6 @@ class SettingsBloc extends ChangeNotifier {
 
   Locale locale = const Locale('en', 'EN');
 
-  final supportedLocalesProvider = Provider<List<Locale>>((_) {
-    return const [
-      Locale('en', 'EN'),
-      Locale('id', 'ID'),
-    ];
-  });
 
   final List<Locale> supportedLocales = [
       const Locale('en', 'EN'),
