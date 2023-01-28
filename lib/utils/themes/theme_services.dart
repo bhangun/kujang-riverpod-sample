@@ -9,7 +9,7 @@ static TextTheme _buildTextTheme(TextTheme base) {
     headline5: base.headline5!.copyWith(
       fontWeight: FontWeight.w500,
     ),
-    headline6: base.headline6!.copyWith(
+    headline6: base.titleLarge!.copyWith(
         fontSize: 18.0
     ),
     caption: base.caption!.copyWith(
@@ -101,13 +101,13 @@ static ThemeData lightTheme() {
     colorScheme: colorScheme,
     primaryColor: primaryColor,
     indicatorColor: Colors.white,
-    toggleableActiveColor: const Color(0xFF1E88E5),
+    // toggleableActiveColor: const Color(0xFF1E88E5),
     splashColor: Colors.white24,
     splashFactory: InkRipple.splashFactory,
     canvasColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
-    backgroundColor: Colors.white,
-    errorColor: const Color(0xFFB00020),
+    // backgroundColor: Colors.white,
+    // errorColor: const Color(0xFFB00020),
     buttonTheme: ButtonThemeData(
       colorScheme: colorScheme,
       textTheme: ButtonTextTheme.primary,

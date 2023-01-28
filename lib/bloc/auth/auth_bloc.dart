@@ -1,4 +1,3 @@
-import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
@@ -109,28 +108,28 @@ class AuthBloc extends ChangeNotifier {
   String messagePassword(context) {
     switch (passwordMessage) {
       case "confirm":
-        return AppLocalizations.of(context)!.passwordConfirm;
+        return AppLocalizations.of(context).passwordConfirm;
       case "empty":
-        return AppLocalizations.of(context)!.passwordEmpty;
+        return AppLocalizations.of(context).passwordEmpty;
       case "length":
-        return AppLocalizations.of(context)!.passwordLength;
+        return AppLocalizations.of(context).passwordLength;
       case "match":
-        return AppLocalizations.of(context)!.passwordMatch;
+        return AppLocalizations.of(context).passwordMatch;
       default:
         return "";
     }
   }
 
   message(context) {
-    errorMessage = AppLocalizations.of(context)!.errorUnauthorized;
+    errorMessage = AppLocalizations.of(context).errorUnauthorized;
     switch (errorMessage) {
       case "unauthorized":
-        errorMessage = AppLocalizations.of(context)!.errorUnauthorized;
+        errorMessage = AppLocalizations.of(context).errorUnauthorized;
         break;
       case "username":
-        return AppLocalizations.of(context)!.errorUsername;
+        return AppLocalizations.of(context).errorUsername;
       default:
-        return AppLocalizations.of(context)!.errorNetwork;
+        return AppLocalizations.of(context).errorNetwork;
     }
   }
 

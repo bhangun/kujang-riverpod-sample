@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -114,7 +116,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   }
 
   Widget _usernameField() => TextFieldWidget(
-        hint: AppLocalizations.of(context)!.email,
+        hint: AppLocalizations.of(context).email,
         inputType: TextInputType.emailAddress,
         icon: Icons.person,
         iconColor: Colors.black54,
@@ -127,7 +129,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
       );
 
   Widget _passwordField() => TextFieldWidget(
-        hint: AppLocalizations.of(context)!.password,
+        hint: AppLocalizations.of(context).password,
         isObscure: _isObscure,
         padding: const EdgeInsets.only(top: 16.0),
         icon: Icons.lock,
@@ -144,7 +146,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
       alignment: FractionalOffset.centerRight,
       child: TextButton(
           key: const Key('user_forgot_password'),
-          child: Text(AppLocalizations.of(context)!.forgot_password),
+          child: Text(AppLocalizations.of(context).forgot_password),
           onPressed: () => ref.read(authBloc).forgotPassword()));
 
   Widget _signInButton() => ElevatedButton(
@@ -153,7 +155,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
           ref.read(authBloc).signIn(context);
           showModal(context, _authBloc.errorMessage, () => {});
         },
-        child: Text(AppLocalizations.of(context)!.sign_in),
+        child: Text(AppLocalizations.of(context).sign_in),
       );
 
   _onEyePressed() {

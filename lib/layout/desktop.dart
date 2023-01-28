@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 
 class DesktopLayout extends StatelessWidget {
@@ -6,7 +8,7 @@ class DesktopLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(''),
+      child: const Text(''),
     );
   }
 }

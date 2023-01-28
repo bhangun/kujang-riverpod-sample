@@ -36,21 +36,21 @@ class KujangApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _settingsBloc = ref.watch(settingsBloc);
-    List<Locale> _supportedLocales = ref.read(settingsBloc).supportedLocales; 
+    final settingsBloc = ref.watch(null);
+    List<Locale> supportedLocales = ref.read(settingsBloc).supportedLocales; 
 
     return MaterialApp(
       key: GlobalKey<NavigatorState>(),
       theme: ThemeServices.lightTheme(),
       darkTheme: ThemeServices.darkTheme(),
-      themeMode: _settingsBloc.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
+      themeMode: settingsBloc.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
       routes: RoutesService.routes,
       initialRoute: AppsRoutes.splash,
       navigatorKey: NavigationServices.navigatorKey,
       debugShowCheckedModeBanner: false,
-      locale: _settingsBloc.locale,
+      locale: settingsBloc.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: _supportedLocales,
+      supportedLocales: supportedLocales,
     );
   }
 }

@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_sample/modules/user/model/user.dart';
+
 import 'package:riverpod_sample/services/navigation.dart';
+import 'package:riverpod_sample/modules/user/model/user.dart';
 import 'package:riverpod_sample/modules/user/services/user_routes.dart';
 import 'package:riverpod_sample/modules/user/services/user_services.dart';
 
@@ -15,7 +16,7 @@ final userProv = FutureProvider<List<User>>((ref) async {
     await rootBundle.loadString('assets/data/users.json'),
   );
   return User.listFromJson(content);
-  //return await UserServices.users();
+
 });
 
 class UserBloc extends ChangeNotifier {
@@ -76,9 +77,9 @@ class UserBloc extends ChangeNotifier {
     userStatus = value;
   } */
 
-  itemTap(int _position) {
+  itemTap(int position) {
     try {
-      position = _position;
+      position = position;
       user = userList![position];
       isItemEmpty = false;
       NavigationServices.navigateTo(UserRoutes.userDetail);
@@ -105,7 +106,7 @@ class UserBloc extends ChangeNotifier {
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -119,7 +120,7 @@ class UserBloc extends ChangeNotifier {
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+     // print(e.toString());
     }
   }
 
@@ -137,7 +138,7 @@ class UserBloc extends ChangeNotifier {
       success = true;
       getUserList();
     } catch (e) {
-      print(e.toString());
+     // print(e.toString());
     }
   }
 

@@ -20,8 +20,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool? isEyeOpen;
   final bool showEye;
 
-  const TextFieldWidget({
-    Key? key,
+  const TextFieldWidget({super.key, 
     this.icon,
     this.hint,
     this.errorText,
@@ -54,12 +53,12 @@ class TextFieldWidget extends StatelessWidget {
         obscureText: isObscure,
         maxLength: 25,
         keyboardType: inputType,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
         decoration: InputDecoration(
             hintText: hint,
             hintStyle: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: hintColor),
             errorText: errorText,
             counterText: '',

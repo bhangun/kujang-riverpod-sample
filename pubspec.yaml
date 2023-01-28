@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.6 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,63 +36,117 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  # State management using Riverpod
+  # STATE MANAGEMENT
   riverpod: ^1.0.0
-
   flutter_riverpod: ^1.0.0
 
-  freezed: ^1.0.0
+  # FIREBASE
+  cloud_firestore: ^3.4.1
+  cloud_functions: ^3.3.3
+  firebase_auth: ^3.5.1
+  firebase_core: ^1.20.0
 
-  freezed_annotation: ^1.0.0
-
-  # Utils
-  equatable: ^2.0.0
-
-  # Local database
-  sembast: ^3.0.0+2 
-
-  # Encryption
-  xxtea: ^2.1.0
-
-  # REST connection
-  dio: ^4.0.0
-
+  # LOCALE
   intl: ^0.17.0
 
-  # Network connection
-  connectivity: ^3.0.2
-
-  # Logging
-  f_logs: ^2.0.0
-
-  #biometric_storage: ^2.0.1
-
-  # JWT decoder
+  # JWT DECODER
   jwt_decoder: ^2.0.1
 
+  # NETWORK 
+  connectivity_plus: ^3.0.2
 
+  # LOGGING
+  f_logs: ^2.0.0
+
+
+
+  # LOCAL DATABASE
+  sembast: ^3.0.0+2 
+
+  # ENCRYPTION
+  xxtea: ^2.1.0
+
+  # REST 
+  dio: ^4.0.0
+
+
+
+  # IMAGE & ICON
+  # 
   cached_network_image: ^3.0.0
 
-  path_provider: ^2.0.1
+  # 
+  flutter_svg: ^1.0.3
 
-  flutter_svg: ^0.23.0+1
+  # 
+  font_awesome_flutter: ^10.1.0
 
-  json_annotation: ^4.0.0
+  # UTILS
+  # 
+  equatable: ^2.0.3
 
+  # 
+  path_provider: ^2.0.2
+
+  # 
+  json_annotation: ^4.7.0
 
   # plugin provides an API for querying information about an application package.
   package_info_plus: ^1.0.3
 
+  # 
+  platform: ^3.0.2
+
+  # 
+  url_launcher: ^6.0.9
+
+  # 
+  clock: ^1.1.0
+
+  # 
+  collection: ^1.16.0
+
+  # very_good_analysis: ^3.1.0
+  # visibility_detector: ^0.3.3
+  # stream_transform: ^2.0.0
+
+  # SENSOR
+  # 
   sensors_plus: ^1.0.2
 
-  shared_preferences:
+  # 
+  shared_preferences: ^2.0.15
 
+  # 
   responsive_builder: ^0.4.1
 
+  # 
+  freezed_annotation: ^2.1.0
+
+  # 
+  # google_mobile_ads: ^2.3.0
+
+  #biometric_storage: ^2.0.1
 
 dev_dependencies:
-  build_runner: ^2.1.5
+  # 
+  build_runner: ^2.2.0
+  
+  # 
+  build_verify: ^3.0.0
+  
+  # 
+  build_version: ^2.0.3
+  
+  # 
+  freezed: ^2.1.0+1
+  
+  # 
   flutter_test:
+    sdk: flutter
+  
+  #
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -100,7 +154,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.0
+  lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

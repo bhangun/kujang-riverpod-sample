@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 listMenuDrawer(){
    var list = <Widget>[];
-   list.add(Text(""));
+   list.add(const Text(""));
    return list;
 }
 
