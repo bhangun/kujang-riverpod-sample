@@ -1,6 +1,6 @@
 //import 'package:f_logs/f_logs.dart';
 import 'package:f_logs/f_logs.dart' as log;
-import 'package:riverpod_sample/models/app_data.dart';
+import 'package:riverpod_sample/modules/app/model/app_data.dart';
 import 'package:sembast/sembast.dart';
 
 import 'database.dart';

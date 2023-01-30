@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_sample/bloc/auth/auth_bloc.dart';
+import 'package:riverpod_sample/modules/auth/provider/auth_bloc.dart';
 import 'package:riverpod_sample/widgets/button_widget.dart';
 import 'package:riverpod_sample/widgets/drawer_widget.dart';
 
-import '../widgets/bottom_bar_widget.dart';
-import '../widgets/appbar_widget.dart';
+import '../../../widgets/bottom_bar_widget.dart';
+import '../../../widgets/appbar_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

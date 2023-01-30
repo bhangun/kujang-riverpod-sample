@@ -23,8 +23,8 @@ class PlatformInfo {
   // static connectivityResult = await (Connectivity().checkConnectivity());
 
 
-  static Future<bool> get isMobileInternet async => await Connectivity().checkConnectivity().ConnectivityResult.mobile;
-  static Future<ConnectivityResult> get isWifi async => await Connectivity().checkConnectivity().ConnectivityResult.wifi;
+  static Future<bool> get isMobileInternet async => await Connectivity().checkConnectivity().then((value) => value == ConnectivityResult.mobile);
+  static Future<bool> get isWifi async => await Connectivity().checkConnectivity().then((value) => value == ConnectivityResult.wifi);
 
 }
 

@@ -5,13 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../bloc/settings/settings_bloc.dart';
-import '../bloc/auth/auth_bloc.dart';
-import '../utils/helper.dart';
-import '../services/apps_routes.dart';
-import '../services/navigation.dart';
-import '../utils/config.dart';
-import '../widgets/textfield_widget.dart';
+import '../../settings/provider/settings_bloc.dart';
+import '../provider/auth_bloc.dart';
+import '../../../utils/helper.dart';
+import '../../../services/apps_routes.dart';
+import '../../../services/navigation.dart';
+import '../../../utils/config.dart';
+import '../../../widgets/textfield_widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

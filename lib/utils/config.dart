@@ -1,4 +1,6 @@
 // General
+import 'package:flutter/material.dart';
+
 const appName = 'Kujang Apps';
 
 // Caution! use your host IP instead of LOCALHOST
@@ -23,3 +25,33 @@ const int timeoutConnection = 5000;
 const String iconApp = 'assets/icons/ic_appicon.png';
 const String imageLogin = 'assets/images/img_login.jpg';
 const String imageSplash = 'assets/icons/logo-kujang.svg';
+
+enum Flavor {
+  DEVELOPMENT,
+  RELEASE,
+}
+
+class Config {
+
+  static Flavor appFlavor = Flavor.DEVELOPMENT;
+
+  static String get flavor {
+    switch (appFlavor) {
+      case Flavor.RELEASE:
+        return 'RELEASE';
+      case Flavor.DEVELOPMENT:
+      default:
+        return 'DEVELOPMENT';
+    }
+  }
+
+  static Icon get flavorIcon {
+    switch (appFlavor) {
+      case Flavor.RELEASE:
+        return const Icon(Icons.new_releases);
+      case Flavor.DEVELOPMENT:
+      default:
+        return const Icon(Icons.developer_mode);
+    }
+  }
+}

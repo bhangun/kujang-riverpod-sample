@@ -13,7 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'bloc/settings/settings_bloc.dart';
+import 'modules/settings/provider/settings_bloc.dart';
 import 'services/apps_routes.dart';
 import 'services/navigation.dart';
 import 'utils/modules/modules_registry.dart';

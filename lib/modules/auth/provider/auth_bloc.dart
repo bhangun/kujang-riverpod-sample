@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
 import 'package:riverpod_sample/services/local/database_services.dart';
 
-import '../../services/apps_routes.dart';
-import '../../services/auth_jwt_services.dart';
-import '../../services/navigation.dart';
+import '../../../services/apps_routes.dart';
+import '../../../services/auth_jwt_services.dart';
+import '../../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final authBloc = ChangeNotifierProvider<AuthBloc>((ref) => AuthBloc());

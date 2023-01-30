@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../screens/about.dart';
-import '../screens/home.dart';
-import '../screens/login.dart';
-import '../screens/splash.dart';
+import '../modules/settings/pages/about.dart';
+import '../modules/app/pages/home.dart';
+import '../modules/auth/pages/login.dart';
+import '../modules/app/pages/splash.dart';
 
 class AppsRoutes {
   AppsRoutes._();
