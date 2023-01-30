@@ -13,7 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'modules/settings/provider/settings_bloc.dart';
+import 'modules/settings/provider/settings_provider.dart';
 import 'services/apps_routes.dart';
 import 'services/navigation.dart';
 import 'utils/modules/modules_registry.dart';
@@ -31,24 +31,26 @@ Future<void> main() async {
   runApp(const ProviderScope(child: KujangApp()));
 }
 
+
 class KujangApp extends ConsumerWidget {
   const KujangApp({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingsBloc = ref.watch(null);
-    List<Locale> supportedLocales = ref.read(settingsBloc).supportedLocales; 
+    final settingProvider = ref.watch(settingsProvider);
+    List<Locale> supportedLocales = ref.read(settingsProvider).supportedLocales; 
 
     return MaterialApp(
       key: GlobalKey<NavigatorState>(),
       theme: ThemeServices.lightTheme(),
       darkTheme: ThemeServices.darkTheme(),
-      themeMode: settingsBloc.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
+      themeMode: settingProvider.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
       routes: RoutesService.routes,
       initialRoute: AppsRoutes.splash,
       navigatorKey: NavigationServices.navigatorKey,
       debugShowCheckedModeBanner: false,
-      locale: settingsBloc.locale,
+      locale: settingProvider.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: supportedLocales,
     );

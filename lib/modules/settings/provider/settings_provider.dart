@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final settingsBloc = ChangeNotifierProvider<SettingsBloc>((ref) => SettingsBloc());
+final settingsProvider = ChangeNotifierProvider<SettingsProvider>((ref) => SettingsProvider());
 
-class SettingsBloc extends ChangeNotifier {
+class SettingsProvider extends ChangeNotifier {
 
   bool isLightTheme = true;
 

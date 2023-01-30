@@ -8,9 +8,9 @@ import '../../../services/auth_jwt_services.dart';
 import '../../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final authBloc = ChangeNotifierProvider<AuthBloc>((ref) => AuthBloc());
+final authProvider = ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider());
 
-class AuthBloc extends ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   String username = '';
 
   User? user;

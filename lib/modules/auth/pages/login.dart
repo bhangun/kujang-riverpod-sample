@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../settings/provider/settings_bloc.dart';
-import '../provider/auth_bloc.dart';
+import '../../settings/provider/settings_provider.dart';
+import '../provider/auth_provider.dart';
 import '../../../utils/helper.dart';
 import '../../../services/apps_routes.dart';
 import '../../../services/navigation.dart';
@@ -29,7 +29,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  AuthBloc _authBloc = AuthBloc();
+  AuthProvider _authProvider = AuthProvider();
 
   bool _isEyeOpen = true;
 
@@ -45,12 +45,12 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
     _usernameController.addListener(() {
       // this will be called whenever user types in some value
-      _authBloc.setUserId(_usernameController.text);
+      _authProvider.setUserId(_usernameController.text);
     });
 
     _passwordController.addListener(() {
       //this will be called whenever user types in some value
-      _authBloc.setPassword(_passwordController.text);
+      _authProvider.setPassword(_passwordController.text);
     });
   }
 
@@ -65,8 +65,8 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _authBloc = ref.watch(authBloc);
-    _isLight = ref.watch(settingsBloc).isLightTheme;
+    _authProvider = ref.watch(authProvider);
+    _isLight = ref.watch(settingsProvider).isLightTheme;
 
     return Scaffold(
         primary: true,
@@ -87,7 +87,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
                   icon: _isLight
                       ? const Icon(Icons.dark_mode)
                       : const Icon(Icons.light_mode),
-                  onPressed: () => ref.read(settingsBloc).switchTheme()),
+                  onPressed: () => ref.read(settingsProvider).switchTheme()),
               IconButton(
                   splashRadius: 15,
                   color: Theme.of(context).errorColor,
@@ -125,7 +125,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
         },
-        errorText: _authBloc.loginMessage,
+        errorText: _authProvider.loginMessage,
       );
 
   Widget _passwordField() => TextFieldWidget(
@@ -136,7 +136,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         iconColor: Colors.black54,
         textController: _passwordController,
         focusNode: _passwordFocusNode,
-        errorText: _authBloc.passwordMessage,
+        errorText: _authProvider.passwordMessage,
         onEyePressed: () => _onEyePressed(),
         isEyeOpen: _isEyeOpen,
         showEye: true,
@@ -147,13 +147,13 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
       child: TextButton(
           key: const Key('user_forgot_password'),
           child: Text(AppLocalizations.of(context).forgot_password),
-          onPressed: () => ref.read(authBloc).forgotPassword()));
+          onPressed: () => ref.read(authProvider).forgotPassword()));
 
   Widget _signInButton() => ElevatedButton(
         key: const Key('user_sign_button'),
         onPressed: () {
-          ref.read(authBloc).signIn(context);
-          showModal(context, _authBloc.errorMessage, () => {});
+          ref.read(authProvider).signIn(context);
+          showModal(context, _authProvider.errorMessage, () => {});
         },
         child: Text(AppLocalizations.of(context).sign_in),
       );
@@ -180,5 +180,5 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   _localeBtn(title, key) => TextButton(
       child: Text(title),
-      onPressed: () => ref.read(settingsBloc).switchLocale(key));
+      onPressed: () => ref.read(settingsProvider).switchLocale(key));
 }

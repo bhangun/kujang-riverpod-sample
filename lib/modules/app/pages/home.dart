@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_sample/modules/auth/provider/auth_bloc.dart';
+import 'package:riverpod_sample/modules/auth/provider/auth_provider.dart';
 import 'package:riverpod_sample/widgets/button_widget.dart';
 import 'package:riverpod_sample/widgets/drawer_widget.dart';
 
 import '../../../widgets/bottom_bar_widget.dart';
 import '../../../widgets/appbar_widget.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _Homepagestate createState() => _Homepagestate();
+  HomePageState createState() => HomePageState();
 }
 
-class _Homepagestate extends ConsumerState<HomeScreen> {
+class HomePageState extends ConsumerState<HomePage> {
   final _homeKey = GlobalKey<ScaffoldState>();
 
   final _title = 'Home';
-  AuthBloc _authBloc = AuthBloc();
+  AuthProvider _authProvider = AuthProvider();
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _Homepagestate extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _authBloc = ref.watch(authBloc);
+    _authProvider = ref.watch(authProvider);
 
     return Scaffold(
       key: _homeKey,
@@ -41,8 +41,8 @@ class _Homepagestate extends ConsumerState<HomeScreen> {
         onLogout: () => {},
       ),
       body: _body(),
-      drawer: KDrawer(firstName: _authBloc.user!.firstName,
-      email: _authBloc.user!.email,),
+      drawer: KDrawer(firstName: _authProvider.user!.firstName,
+      email: _authProvider.user!.email,),
       bottomNavigationBar: const KBottomBar(),
     );
   }
