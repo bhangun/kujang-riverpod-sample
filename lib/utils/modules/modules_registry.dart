@@ -1,11 +1,10 @@
 import 'package:riverpod_sample/modules/register_modules.dart';
-import 'package:logging/logging.dart';
 
 import '../routes.dart';
 import 'modules.dart';
 
 class ModulesRegistry {
-  final log = Logger('AuthBloc');
+
   // singleton object
   static final ModulesRegistry _singleton = ModulesRegistry._();
 

@@ -6,17 +6,14 @@ class ThemeServices {
 
 static TextTheme _buildTextTheme(TextTheme base) {
   return base.copyWith(
-    headline5: base.headline5!.copyWith(
-      fontWeight: FontWeight.w500,
-    ),
-    headline6: base.titleLarge!.copyWith(
+    titleLarge: base.titleLarge!.copyWith(
         fontSize: 18.0
     ),
-    caption: base.caption!.copyWith(
+    bodySmall: base.bodySmall!.copyWith(
       fontWeight: FontWeight.w400,
       fontSize: 14.0,
     ),
-    bodyText1: base.bodyText2!.copyWith(
+    bodyMedium: base.bodyMedium!.copyWith(
       fontWeight: FontWeight.w500,
       fontSize: 16.0,
     ),
@@ -38,34 +35,16 @@ static ThemeData darkTheme() {
   final ThemeData base = ThemeData(
     brightness: Brightness.dark,
     visualDensity: const VisualDensity(vertical: 0.5, horizontal: 0.5),
-    primarySwatch: const MaterialColor(
-      0xFFF5E0C3,
-      <int, Color>{
-        50: Color(0x1a5D4524),
-        100: Color(0xa15D4524),
-        200: Color(0xaa5D4524),
-        300: Color(0xaf5D4524),
-        400: Color(0x1a483112),
-        500: Color(0xa1483112),
-        600: Color(0xaa483112),
-        700: Color(0xff483112),
-        800: Color(0xaf2F1E06),
-        900: Color(0xff2F1E06)
-      },
-    ),
     primaryColor: primaryColor,
     primaryColorDark: primaryColor,
     primaryColorLight: secondaryColor,
     indicatorColor: Colors.white,
-    toggleableActiveColor: const Color(0xFF6997DF),
     canvasColor: const Color(0xFF202124),
     scaffoldBackgroundColor: const Color(0xFF202124),
-    backgroundColor: const Color(0xFFB00020),
-    errorColor: const Color(0xFFB00020),
     buttonTheme: ButtonThemeData(
       colorScheme: colorScheme,
       textTheme: ButtonTextTheme.primary,
-    ),
+    ), colorScheme: ColorScheme.fromSwatch(primarySwatch: MatThemeColors.deepPurple).copyWith(background: const Color(0xFFB00020)),
   );
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),
@@ -83,21 +62,7 @@ static ThemeData lightTheme() {
   final ThemeData base = ThemeData(
     brightness: Brightness.light,
     visualDensity: const VisualDensity(vertical: 0.5, horizontal: 0.5),
-    primarySwatch: const MaterialColor(
-      0xFFF5E0C3,
-      <int, Color>{
-        50: Color(0x1a5D4524),
-        100: Color(0xa15D4524),
-        200: Color(0xaa5D4524),
-        300: Color(0xaf5D4524),
-        400: Color(0x1a483112),
-        500: Color(0xa1483112),
-        600: Color(0xaa483112),
-        700: Color(0xff483112),
-        800: Color(0xaf2F1E06),
-        900: Color(0xff2F1E06)
-      },
-    ),
+    primarySwatch:MatThemeColors.amber,
     colorScheme: colorScheme,
     primaryColor: primaryColor,
     indicatorColor: Colors.white,

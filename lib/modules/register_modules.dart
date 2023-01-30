@@ -1,4 +1,4 @@
-import 'main_module.dart';
+import 'app/app_module.dart';
 import '../utils/modules/module.dart';
 // kutilang-needle-import-module -- don't remove this line
 

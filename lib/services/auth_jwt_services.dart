@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/services.dart';
-import 'package:riverpod_sample/models/app_data.dart';
+import 'package:riverpod_sample/modules/app/model/app_data.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
 
 import 'local/database_services.dart';

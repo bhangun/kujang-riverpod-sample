@@ -1,8 +1,8 @@
 
-import '../services/apps_routes.dart';
+import '../../services/apps_routes.dart';
 
-import '../utils/modules/module.dart';
-import 'user/services/user_routes.dart';
+import '../../utils/modules/module.dart';
+import '../user/services/user_routes.dart';
 
 class MainModule implements Module {
   @override
