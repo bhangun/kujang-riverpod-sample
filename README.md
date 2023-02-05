@@ -164,3 +164,34 @@ If your app has been created on the Google Play developer console, you're ready 
 ```
 fastlane supply init
 ```
+
+
+## Running deployment locally
+
+Build the release mode app.
+#### Android 
+```
+flutter build appbundle.
+```
+#### iOS 
+```
+flutter build ipa.
+```
+
+### Run the Fastfile script on each platform.
+#### Android 
+```
+cd android 
+```
+then 
+```
+fastlane [name of the lane you created].
+```
+#### iOS 
+```
+cd ios 
+```
+then 
+```
+fastlane [name of the lane you created].
+```

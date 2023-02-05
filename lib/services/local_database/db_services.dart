@@ -1,29 +1,46 @@
-//import 'package:f_logs/f_logs.dart';
 import 'package:f_logs/f_logs.dart' as log;
-import 'package:riverpod_sample/modules/app/model/app_data.dart';
 import 'package:sembast/sembast.dart';
 
-import 'database.dart';
-import 'local_db_constants.dart';
+import '../../modules/app/model/app_data.dart';
+import '../../utils/config.dart';
+import 'db.dart';
+// import 'database_constants.dart';
 
 class DatabaseServices {
+  var key = '';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Flogs objects converted to Map
-  final _appsStore = intMapStoreFactory.store(DBConstants.storeName);
+  final _appsStore = intMapStoreFactory.store(storeName);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  Future<Database> get _db async => await LocalDatabase.db.database;
+  Future<Database> get _db async => await LocalDatabase.db.database(key);
+
+  // late Future<Database> _db; 
+
+  final DatabaseServices _singleton = DatabaseServices();
 
   // Singleton instance
-  static final DatabaseServices _singleton = DatabaseServices._();
+  // static final DatabaseServices _singleton = DatabaseServices._();
 
   // A private constructor. Allows us to create instances of DatabaseServices
   // only from within the DatabaseServices class itself.
-  DatabaseServices._();
+  // DatabaseServices._();
 
   // Singleton accessor
-  static DatabaseServices get db => _singleton;
+  DatabaseServices get db => _singleton;
+
+  /* DatabaseServices(String password)  {
+    _db = await LocalDatabase.db.database(key);
+  } */
+
+  password(String password) {
+    key = password;
+  }
+
+  close() async {
+    (await _db).close();
+  }
 
   saveToken(String token) async {
     await _appsStore.record(0).add(await _db, {'id_token': token});
@@ -51,37 +68,34 @@ class DatabaseServices {
   Future<dynamic> fetchObject(key) async {
     final finder = Finder(filter: Filter.byKey(key));
     try {
-      return  (await _appsStore.find(await _db, finder: finder)).first;
+      return (await _appsStore.find(await _db, finder: finder)).first;
     } catch (e) {
       log.FLog.info(text: e.toString());
     }
   }
 
-  // DB functions:--------------------------------------------------------------
+  // _db functions:--------------------------------------------------------------
   Future<int> insert(AppData appData) async {
     return await _appsStore.add(await _db, appData.toMap());
   }
 
-  /// 
+  ///
   Future<int> insertObject(Map<String, dynamic> data) async {
     return await _appsStore.add(await _db, data);
   }
 
   Future<Map<String, Object?>> fetch(String key) async {
- 
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(key));
-    Map<String, Object?>? value ;
- 
-    try{
-        value =(await _appsStore.findFirst(await _db, finder: finder))!.value;
-  
-    }catch(e){
-     
-      value = {'id_token':''};
+    Map<String, Object?>? value;
+
+    try {
+      value = (await _appsStore.findFirst(await _db, finder: finder))!.value;
+    } catch (e) {
+      value = {'id_token': ''};
     }
-  
+
     return value;
   }
 
@@ -115,7 +129,7 @@ class DatabaseServices {
     //creating finder
     final finder = Finder(
         filter: Filter.and(filters),
-        sortOrders: [SortOrder(DBConstants.fieldId)]);
+        sortOrders: [SortOrder(fieldId)]);
 
     final recordSnapshots = await _appsStore.find(
       await _db,

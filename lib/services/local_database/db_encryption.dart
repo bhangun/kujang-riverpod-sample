@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
 import 'package:sembast/sembast.dart';
 import 'package:xxtea/xxtea.dart';
 
@@ -60,5 +59,5 @@ class _XXTeaCodec extends Codec<Map<String, dynamic>, String> {
 ///
 /// // ...your database is ready to use as encrypted
 /// ```
-SembastCodec getXXTeaCodec({@required String? password}) =>
+SembastCodec getXXTeaCodec({String? password}) =>
     SembastCodec(signature: 'xxtea', codec: _XXTeaCodec(password!));

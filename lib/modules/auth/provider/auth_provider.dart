@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
-import 'package:riverpod_sample/services/local/database_services.dart';
+import 'package:riverpod_sample/services/local_database/db_services.dart';
+import 'package:sembast/sembast.dart';
 
 import '../../../services/apps_routes.dart';
 import '../../../services/auth_jwt_services.dart';
 import '../../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final authProvider = ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider());
+import '../../app/provider/db_provider.dart';
+
+final authProvider = ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider(ref: ref));
 
 class AuthProvider extends ChangeNotifier {
+  final Ref ref;
+  AuthProvider({required this.ref});
+  
   String username = '';
 
   User? user;
@@ -52,9 +58,15 @@ class AuthProvider extends ChangeNotifier {
     username = value;
   }
 
-  void setPassword(String value) {
+  signUpDefault(){
+
+  }
+
+  void setPassword(String value) async{
     _validatePassword(value);
     password = value;
+
+    // db = await ref.read(dbProvider);
   }
 
   void setConfirmPassword(String value) {
@@ -142,11 +154,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void _loggedin(value) async{
-    int id = (await DatabaseServices.db.fetchObject(value))["user"];
+    //int id = (await DatabaseServices.db.fetchObject(value))["user"];
     for (var user in await AuthServices.userStatic()) {
-      if (user.id == id) {
+      /* if (user.id == id) {
         this.user = user;
-      }
+      } */
     }
    
     NavigationServices.navigateTo(AppsRoutes.home);
@@ -175,6 +187,23 @@ class AuthProvider extends ChangeNotifier {
   Future forgotPassword() async {
     loading = true;
   }
+
+  void signUpWithGoogle() async {
+    
+  }
+
+  void signUpWithFacebook() async {
+   
+  }
+
+  void signUpWithApple() async {
+
+  }
+
+  void signUpWithTwitter() async {
+    
+  }
+
 
   Future<void> logout() async {
     loading = true;

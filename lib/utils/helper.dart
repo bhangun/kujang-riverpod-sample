@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import '../services/local/database_services.dart';
+import '../services/local_database/db_services.dart';
 import 'config.dart';
 
 
 Future<Map<String, dynamic>> jwt() async {
-  return JwtDecoder.decode(await DatabaseServices.db.saveToken(token));
+  return JwtDecoder.decode('');//await DatabaseServices.db.saveToken(token));
 }
 
 Future<List<String>> roles() async {

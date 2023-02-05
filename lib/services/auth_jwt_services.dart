@@ -1,20 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:f_logs/f_logs.dart';
+import 'package:f_logs/f_logs.dart' as log;
 import 'package:flutter/services.dart';
-import 'package:riverpod_sample/modules/app/model/app_data.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
 
-import 'local/database_services.dart';
+import 'local_database/db_services.dart';
 import 'network/rest_services.dart';
 
 class AuthServices {
+
+  late DatabaseServices db;
   /// Path authenticate,
   /// Post authorize & Get isAuthorize
   static Future<int> login(String _username, String _password,
       [bool _rememberMe = false]) async {
  
+        try{
+
+        }catch(e){
+          log.FLog.info(text: e.toString());
+        }
     /* var body = jsonEncode({
       "username": _username,
       "password": _password,
@@ -24,7 +30,7 @@ class AuthServices {
     if (data.runtimeType.toString() ==
         '_InternalLinkedHashMap<String, dynamic>') {
       String _token = data['id_token'];
-      DatabaseServices.db.saveToken(_token);
+      db.saveToken(_token);
       return "SUCCESS";
     } else {
       return data;
@@ -34,8 +40,8 @@ class AuthServices {
     
     for (var user in await userStatic()) {
       if (user.username == _username && user.password == _password) {
-        return await DatabaseServices.db.insertObject({"user":user.id});
-        //return 'SUCCESS';
+        //return await db.insertObject({"user":user.id});
+       // return 'SUCCESS';
       }
     }
     return 0;
@@ -50,13 +56,13 @@ class AuthServices {
   }
 
   static Future<String> fetchToken() async {
-    String token = await DatabaseServices.db.fetchToken();
+    String token = ''; //await dbs.fetchToken();
     return token;
   }
 
   static void logout() {
-    FLog.debug(text: 'logout');
-    DatabaseServices.db.deleteToken();
+    log.FLog.debug(text: 'logout');
+  //  db.deleteToken();
   }
 
   /// changePassword

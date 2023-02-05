@@ -41,10 +41,10 @@ dependencies:
   flutter_riverpod: ^1.0.0
 
   # FIREBASE
-  cloud_firestore: ^3.4.1
-  cloud_functions: ^3.3.3
-  firebase_auth: ^3.5.1
-  firebase_core: ^1.20.0
+  #cloud_firestore: ^3.4.1
+  #cloud_functions: ^3.3.3
+  #firebase_auth: ^3.5.1
+  #firebase_core: ^1.20.0
 
   # LOCALE
   intl: ^0.17.0
@@ -58,8 +58,6 @@ dependencies:
   # LOGGING
   f_logs: ^2.0.0
 
-
-
   # LOCAL DATABASE
   sembast: ^3.0.0+2 
 
@@ -68,8 +66,6 @@ dependencies:
 
   # REST 
   dio: ^4.0.0
-
-
 
   # IMAGE & ICON
   # 
@@ -89,10 +85,10 @@ dependencies:
   go_router: ^6.0.1
 
   # 
-  path_provider: ^2.0.2
+  path_provider: ^2.0.12
 
   # 
-  json_annotation: ^4.7.0
+  json_annotation: ^4.8.0
 
   # plugin provides an API for querying information about an application package.
   package_info_plus: ^1.0.3
@@ -124,7 +120,7 @@ dependencies:
   responsive_builder: ^0.4.1
 
   # 
-  freezed_annotation: ^2.1.0
+  freezed_annotation: ^2.2.0
 
   # 
   # google_mobile_ads: ^2.3.0
@@ -133,7 +129,7 @@ dependencies:
 
 dev_dependencies:
   # 
-  build_runner: ^2.2.0
+  build_runner: ^2.3.3
   
   # 
   build_verify: ^3.0.0
@@ -142,7 +138,7 @@ dev_dependencies:
   build_version: ^2.0.3
   
   # 
-  freezed: ^2.1.0+1
+  freezed: ^2.3.2
   
   # 
   flutter_test:
@@ -159,6 +155,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   lints: ^2.0.0
+  json_serializable: ^6.6.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
