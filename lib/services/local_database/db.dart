@@ -45,9 +45,7 @@ class LocalDatabase {
     // Get a platform-specific directory where persistent app data can be stored
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
-
-    // Path with the form: /platform-specific-directory/demo.db
-    String dbPath =  '$appDocPath/$dbName';
+    String dbPath = '$appDocPath/$dbName';
 
     // Check to see if encryption is set, then provide codec
     // else init normal db with path

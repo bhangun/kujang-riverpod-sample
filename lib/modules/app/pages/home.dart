@@ -18,7 +18,6 @@ class HomePageState extends ConsumerState<HomePage> {
   final _homeKey = GlobalKey<ScaffoldState>();
 
   final _title = 'Home';
-  AuthProvider _authProvider = AuthProvider();
 
   @override
   void initState() {
@@ -32,7 +31,7 @@ class HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _authProvider = ref.watch(authProvider);
+    var auth = ref.watch(authProvider);
 
     return Scaffold(
       key: _homeKey,
@@ -41,8 +40,8 @@ class HomePageState extends ConsumerState<HomePage> {
         onLogout: () => {},
       ),
       body: _body(),
-      drawer: KDrawer(firstName: _authProvider.user!.firstName,
-      email: _authProvider.user!.email,),
+      drawer: KDrawer(firstName: auth.user!.firstName,
+      email: auth.user!.email,),
       bottomNavigationBar: const KBottomBar(),
     );
   }

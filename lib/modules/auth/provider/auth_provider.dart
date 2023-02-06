@@ -1,77 +1,52 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_sample/modules/user/model/user.dart';
-import 'package:riverpod_sample/services/local_database/db_services.dart';
-import 'package:sembast/sembast.dart';
+import 'package:riverpod_sample/modules/app/model/status.dart';
 
 import '../../../services/apps_routes.dart';
 import '../../../services/auth_jwt_services.dart';
 import '../../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../app/provider/db_provider.dart';
+import '../model/auth_model.dart';
 
-final authProvider = ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider(ref: ref));
+final authProvider = StateNotifierProvider<AuthProvider, Authentication>(
+    (ref) => AuthProvider());
 
-class AuthProvider extends ChangeNotifier {
-  final Ref ref;
-  AuthProvider({required this.ref});
-  
-  String username = '';
+class AuthProvider extends StateNotifier<Authentication> {
+  AuthProvider()
+      : super(const Authentication(
+            username: '',
+            password: '',
+            status: Status()));
+  late Authentication auth;
 
-  User? user;
+  canRegister() {
+    auth.username.isNotEmpty &&
+        auth.password.isNotEmpty &&
+        auth.confirmPassword.isNotEmpty;
+    state = auth;
+  }
 
-  String loginMessage = '';
-
-  String password = '';
-
-  String passwordMessage = '';
-
-  String confirmPassword = '';
-
-  String confirmPasswordMessage = '';
-
-  bool success = false;
-
-  bool loggedIn = false;
-
-  bool loading = false;
-
-  bool rememberMe = false;
-
-  String errorMessage = '';
-
-  bool showError = false;
-
-  bool get canRegister =>
-      username.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty;
-
-  bool get canForgetPassword =>
-      !hasErrorInForgotPassword && username.isNotEmpty;
-
-  bool hasErrorsInLogin = false;
-
-  bool hasErrorInForgotPassword = false;
+  canForgetPassword() {
+    return !auth.status.hasErrorInForgotPassword && auth.username.isNotEmpty;
+  }
 
   void setUserId(String value) {
     _validateUserEmail(value);
-    username = value;
+    auth.copyWith(username: value);
+    state = auth;
   }
 
-  signUpDefault(){
+  signUpDefault() {}
 
-  }
-
-  void setPassword(String value) async{
+  void setPassword(String value) async {
     _validatePassword(value);
-    password = value;
-
-    // db = await ref.read(dbProvider);
+    auth.copyWith(password: value);
+    state = auth;
   }
 
   void setConfirmPassword(String value) {
     _validateConfirmPassword(value);
-    confirmPassword = value;
+    auth.copyWith(confirmPassword: value);
   }
 
   void _validateUserEmail(String value) {
@@ -83,42 +58,42 @@ class AuthProvider extends ChangeNotifier {
     RegExp regExp = RegExp(pattern);
 
     if (value.isEmpty) {
-      loginMessage = "empty";
+      auth.copyWith(loginMessage: "empty");
     } else if (regExp.hasMatch(value)) {
-      showError = true;
-      loginMessage = '';
+      auth.copyWith(status: const Status(showError: true));
+      auth.copyWith(loginMessage: '');
     } else {
-      showError = true;
-      loginMessage = 'unauthorized';
+      auth.copyWith(status: const Status(showError: true));
+      auth.copyWith(loginMessage: 'unauthorized');
     }
 
-    notifyListeners();
+    state = auth;
   }
 
   void _validatePassword(String value) {
     if (value.isEmpty) {
-      passwordMessage = "empty";
+      auth.copyWith(passwordMessage: "empty");
     } else if (value.length < 6) {
-      passwordMessage = "length";
+      auth.copyWith(passwordMessage: "length");
     } else {
-      passwordMessage = '';
+      auth.copyWith(passwordMessage: '');
     }
-    notifyListeners();
+    state = auth;
   }
 
   void _validateConfirmPassword(String value) {
     if (value.isEmpty) {
-      confirmPasswordMessage = "confirm";
-    } else if (value != password) {
-      confirmPasswordMessage = "match";
+      auth.copyWith(confirmPasswordMessage: "confirm");
+    } else if (value != auth.password) {
+      auth.copyWith(confirmPasswordMessage: "match");
     } else {
-      confirmPasswordMessage = '';
+      auth.copyWith(confirmPasswordMessage: '');
     }
-    notifyListeners();
+    state = auth;
   }
 
   String messagePassword(context) {
-    switch (passwordMessage) {
+    switch (auth.passwordMessage) {
       case "confirm":
         return AppLocalizations.of(context).passwordConfirm;
       case "empty":
@@ -133,34 +108,41 @@ class AuthProvider extends ChangeNotifier {
   }
 
   message(context) {
-    errorMessage = AppLocalizations.of(context).errorUnauthorized;
-    switch (errorMessage) {
+    auth.copyWith(
+        status: Status(
+            errorMessage: AppLocalizations.of(context).errorUnauthorized));
+    switch (auth.status.errorMessage) {
       case "unauthorized":
-        errorMessage = AppLocalizations.of(context).errorUnauthorized;
+        auth.copyWith(
+            status: Status(
+                errorMessage: AppLocalizations.of(context).errorUnauthorized));
         break;
       case "username":
         return AppLocalizations.of(context).errorUsername;
       default:
         return AppLocalizations.of(context).errorNetwork;
     }
+    state = auth;
   }
 
   signIn(context) {
-    errorMessage = message(context);
+    auth.copyWith(status: Status(errorMessage: message(context)));
 
-    AuthServices.login(username, password, rememberMe).then((v) {
+    AuthServices.login(auth.username, auth.password, auth.rememberMe).then((v) {
       _loggedin(v);
     });
+
+    state = auth;
   }
 
-  void _loggedin(value) async{
+  void _loggedin(value) async {
     //int id = (await DatabaseServices.db.fetchObject(value))["user"];
     for (var user in await AuthServices.userStatic()) {
       /* if (user.id == id) {
         this.user = user;
       } */
     }
-   
+
     NavigationServices.navigateTo(AppsRoutes.home);
     /* if (value == 'SUCCESS') {
       FLog.info(text: "Success login!");
@@ -177,38 +159,33 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future register() async {
-    loading = true;
+    auth.copyWith(status: const Status(loading: true));
+    state = auth;
   }
 
   Future gotoHome() async {
-    if (loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
+    if (auth.loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
+    state = auth;
   }
 
   Future forgotPassword() async {
-    loading = true;
+    auth.copyWith(status: const Status(loading: true));
+    state = auth;
   }
 
-  void signUpWithGoogle() async {
-    
-  }
+  void signUpWithGoogle() async {}
 
-  void signUpWithFacebook() async {
-   
-  }
+  void signUpWithFacebook() async {}
 
-  void signUpWithApple() async {
+  void signUpWithApple() async {}
 
-  }
-
-  void signUpWithTwitter() async {
-    
-  }
-
+  void signUpWithTwitter() async {}
 
   Future<void> logout() async {
-    loading = true;
+    auth.copyWith(status: const Status(loading: true));
     AuthServices.logout();
     NavigationServices.navigateTo(AppsRoutes.login);
-    loading = false;
+    auth.copyWith(status: const Status(loading: false));
+    state = auth;
   }
 }

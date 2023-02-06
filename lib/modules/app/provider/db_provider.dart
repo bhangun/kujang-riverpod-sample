@@ -7,20 +7,24 @@ import 'package:sembast/sembast.dart';
 
 import '../../../services/local_database/db.dart';
 
+/* final dbProvider = FutureProvider<Database>((ref) async{
+  
+  return await LocalDatabase.db.database(key);
+} */
 final dbProvider = FutureProvider<DBProvider>((ref) => DBProvider(ref:ref));
 
-class DBProvider extends ChangeNotifier {
+class DBProvider  {
   Ref ref;
   DBProvider({required this.ref});
-  var key = '';
+  static var key = '';
   Future<Database> get session async => await LocalDatabase.db.database(key);
 
-  close() async{
+  void close() async{
     (await session).close();
   }
 
-  setDBKey(String password){
+  Future<Database> setDBKey(String password){
     key = password;
+    return session;
   }
-
 }

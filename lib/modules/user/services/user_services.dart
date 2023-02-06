@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
 
 import '../model/user.dart';
-import '../../../services/network/rest_services.dart';
+import '../../../services/rest/rest_services.dart';
 
 class UserServices {
   static Future<User> user(String id) async {

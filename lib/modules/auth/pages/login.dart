@@ -13,14 +13,14 @@ import '../../../services/navigation.dart';
 import '../../../utils/config.dart';
 import '../../../widgets/textfield_widget.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _Loginpagestate createState() => _Loginpagestate();
 }
 
-class _Loginpagestate extends ConsumerState<LoginScreen> {
+class _Loginpagestate extends ConsumerState<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
@@ -28,8 +28,6 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
   late FocusNode _passwordFocusNode;
 
   final _formKey = GlobalKey<FormState>();
-
-  AuthProvider _authProvider = AuthProvider();
 
   bool _isEyeOpen = true;
 
@@ -45,12 +43,12 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
     _usernameController.addListener(() {
       // this will be called whenever user types in some value
-      _authProvider.setUserId(_usernameController.text);
+      auth.setUserId(_usernameController.text);
     });
 
     _passwordController.addListener(() {
       //this will be called whenever user types in some value
-      _authProvider.setPassword(_passwordController.text);
+      auth.setPassword(_passwordController.text);
     });
   }
 
@@ -65,7 +63,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _authProvider = ref.watch(authProvider);
+    auth = ref.watch(authProvider);
     _isLight = ref.watch(settingsProvider).isLightTheme;
 
     return Scaffold(
@@ -125,7 +123,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
         },
-        errorText: _authProvider.loginMessage,
+        errorText: auth.loginMessage,
       );
 
   Widget _passwordField() => TextFieldWidget(
@@ -136,7 +134,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         iconColor: Colors.black54,
         textController: _passwordController,
         focusNode: _passwordFocusNode,
-        errorText: _authProvider.passwordMessage,
+        errorText: auth.passwordMessage,
         onEyePressed: () => _onEyePressed(),
         isEyeOpen: _isEyeOpen,
         showEye: true,
@@ -153,7 +151,7 @@ class _Loginpagestate extends ConsumerState<LoginScreen> {
         key: const Key('user_sign_button'),
         onPressed: () {
           ref.read(authProvider).signIn(context);
-          showModal(context, _authProvider.errorMessage, () => {});
+          showModal(context, auth.errorMessage, () => {});
         },
         child: Text(AppLocalizations.of(context).sign_in),
       );

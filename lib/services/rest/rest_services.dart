@@ -22,7 +22,7 @@ class RestServices {
             RequestInterceptorHandler requestHandler) async {
           AuthServices.fetchToken().then((token) => {
                 if (token != '')
-                  options.headers["Authorization"] = "Bearer " + token
+                  options.headers["Authorization"] = 'Bearer $token'
               });
 
           requestHandler.next(options);

@@ -11,11 +11,11 @@ class SignInAsyncNotifier extends StateNotifier<AsyncValue<bool>> {
   SignInAsyncNotifier({required this.ref})
       : super(const AsyncValue.data(false));
 
-   void signUpDefault() async {
+  void signUpDefault() async {
     state = const AsyncValue.loading();
 
     state = await AsyncValue.guard(() async {
-      await ref.read(authProvider).signUpDefault();
+     // await ref.read(authProvider).signUpDefault();
       return true;
     });
   }
@@ -55,7 +55,7 @@ class SignInAsyncNotifier extends StateNotifier<AsyncValue<bool>> {
   } */
 
   void logout() {
-    ref.read(authProvider).logout();
+   // ref.read(authProvider).logout();
     state = const AsyncData(false);
   }
 }

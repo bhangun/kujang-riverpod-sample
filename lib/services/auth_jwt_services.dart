@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:riverpod_sample/modules/user/model/user.dart';
 
 import 'local_database/db_services.dart';
-import 'network/rest_services.dart';
+import 'rest/rest_services.dart';
 
 class AuthServices {
 
