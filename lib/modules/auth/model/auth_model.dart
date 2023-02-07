@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../app/model/status.dart';
+import '../../user/model/user.dart';
 
 @immutable
 class Authentication {
@@ -9,18 +10,19 @@ class Authentication {
       required this.password,
       this.rememberMe = false,
       this.token = '',
+      this.user = const User(),
       this.loggedIn = false,
       this.loginMessage = '',
       this.passwordMessage = '',
       this.confirmPassword = '',
       this.confirmPasswordMessage = '',
-      this.status = const Status(
-          success: false, showError: false, loading: false, errorMessage: '')});
+      this.status = const Status()});
 
   final String username;
   final String password;
   final bool rememberMe;
   final String token;
+  final User user;
   final bool loggedIn;
   final String loginMessage;
   final String passwordMessage;
@@ -33,6 +35,7 @@ class Authentication {
       String? password,
       bool? rememberMe,
       String? token,
+      User? user,
       bool? loggedIn,
       String? loginMessage,
       String? passwordMessage,
@@ -44,6 +47,7 @@ class Authentication {
         password: password ?? this.password,
         rememberMe: rememberMe ?? this.rememberMe,
         token: token ?? this.token,
+        user: user ?? this.user,
         loggedIn: loggedIn ?? this.loggedIn,
         loginMessage: loginMessage ?? this.loginMessage,
         passwordMessage: passwordMessage ?? this.passwordMessage,

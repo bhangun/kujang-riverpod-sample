@@ -43,9 +43,9 @@ class KujangApp extends ConsumerWidget {
 
     return MaterialApp(
       key: GlobalKey<NavigatorState>(),
-      theme: ThemeServices.lightTheme(),
-      darkTheme: ThemeServices.darkTheme(),
-      themeMode: settingProvider.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
+      //theme: ThemeServices.lightTheme(),
+      //darkTheme: ThemeServices.darkTheme(),
+      //themeMode: settingProvider.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
       routes: RoutesService.routes,
       initialRoute: AppsRoutes.splash,
       navigatorKey: NavigationServices.navigatorKey,

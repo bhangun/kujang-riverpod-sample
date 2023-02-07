@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:riverpod_sample/modules/auth/model/auth_model.dart';
 
 import '../../settings/provider/settings_provider.dart';
 import '../provider/auth_provider.dart';
@@ -34,6 +35,7 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
   bool _isObscure = true;
 
   bool _isLight = true;
+  late Authentication auth;
 
   @override
   void initState() {
@@ -43,12 +45,12 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
 
     _usernameController.addListener(() {
       // this will be called whenever user types in some value
-      auth.setUserId(_usernameController.text);
+      ref.read(authProvider.notifier).setUserId(_usernameController.text);
     });
 
     _passwordController.addListener(() {
       //this will be called whenever user types in some value
-      auth.setPassword(_passwordController.text);
+      ref.read(authProvider.notifier).setPassword(_passwordController.text);
     });
   }
 
@@ -145,13 +147,13 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
       child: TextButton(
           key: const Key('user_forgot_password'),
           child: Text(AppLocalizations.of(context).forgot_password),
-          onPressed: () => ref.read(authProvider).forgotPassword()));
+          onPressed: () => ref.read(authProvider.notifier).forgotPassword()));
 
   Widget _signInButton() => ElevatedButton(
         key: const Key('user_sign_button'),
         onPressed: () {
-          ref.read(authProvider).signIn(context);
-          showModal(context, auth.errorMessage, () => {});
+          ref.read(authProvider.notifier).signIn(context);
+          showModal(context, auth.status.errorMessage, () => {});
         },
         child: Text(AppLocalizations.of(context).sign_in),
       );

@@ -14,34 +14,34 @@ final authProvider = StateNotifierProvider<AuthProvider, Authentication>(
 class AuthProvider extends StateNotifier<Authentication> {
   AuthProvider()
       : super(const Authentication(
-            username: '',
-            password: '',
-            status: Status()));
-  late Authentication auth;
+            username: 'cccc',
+            password: ''));
+   Authentication auth = const Authentication(username: '', password: '');
 
-  canRegister() {
-    auth.username.isNotEmpty &&
+  bool canRegister() {
+
+    return auth.username.isNotEmpty &&
         auth.password.isNotEmpty &&
         auth.confirmPassword.isNotEmpty;
-    state = auth;
+    
   }
 
-  canForgetPassword() {
+  bool canForgetPassword() {
     return !auth.status.hasErrorInForgotPassword && auth.username.isNotEmpty;
   }
 
-  void setUserId(String value) {
+  setUserId(String value) {
     _validateUserEmail(value);
-    auth.copyWith(username: value);
-    state = auth;
+    state.copyWith(username: value);
+    //state = auth;
   }
 
   signUpDefault() {}
 
   void setPassword(String value) async {
     _validatePassword(value);
-    auth.copyWith(password: value);
-    state = auth;
+    state.copyWith(password: value);
+    //state = auth;
   }
 
   void setConfirmPassword(String value) {
@@ -54,19 +54,19 @@ class AuthProvider extends StateNotifier<Authentication> {
     String pattern = "[a-zA-Z0-9+._%-+]{1,256}\\@"
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
         "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+";
-
+    print(value);
     RegExp regExp = RegExp(pattern);
 
     if (value.isEmpty) {
-      auth.copyWith(loginMessage: "empty");
+      state.copyWith(loginMessage: "empty");
     } else if (regExp.hasMatch(value)) {
-      auth.copyWith(status: const Status(showError: true));
-      auth.copyWith(loginMessage: '');
+      state.copyWith(status: const Status(showError: true));
+      state.copyWith(loginMessage: '');
     } else {
-      auth.copyWith(status: const Status(showError: true));
-      auth.copyWith(loginMessage: 'unauthorized');
+      state.copyWith(status: const Status(showError: true));
+      state.copyWith(loginMessage: 'unauthorized');
     }
-
+  print(state.username);
     state = auth;
   }
 
