@@ -1,7 +1,7 @@
 import 'package:f_logs/f_logs.dart' as log;
 import 'package:sembast/sembast.dart';
 
-import '../../modules/app/model/app_data.dart';
+import '../../model/app_data.dart';
 import '../../utils/config.dart';
 import 'db.dart';
 // import 'database_constants.dart';

@@ -1,39 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_sample/modules/app/model/status.dart';
-
-import '../../../services/apps_routes.dart';
-import '../../../services/auth_jwt_services.dart';
-import '../../../services/navigation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../model/status.dart';
+import '../../../services/auth_jwt_services.dart';
 import '../model/auth_model.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, Authentication>(
-    (ref) => AuthProvider());
+    (ref) => AuthProvider(ref: ref));
 
 class AuthProvider extends StateNotifier<Authentication> {
-  AuthProvider()
-      : super(const Authentication(
-            username: 'cccc',
-            password: ''));
-   Authentication auth = const Authentication(username: '', password: '');
+  Ref ref;
+  AuthProvider({required this.ref})
+      : super(const Authentication(username: '', password: ''));
 
   bool canRegister() {
-
-    return auth.username.isNotEmpty &&
-        auth.password.isNotEmpty &&
-        auth.confirmPassword.isNotEmpty;
-    
+    return state.username.isNotEmpty &&
+        state.password.isNotEmpty &&
+        state.confirmPassword.isNotEmpty;
   }
 
   bool canForgetPassword() {
-    return !auth.status.hasErrorInForgotPassword && auth.username.isNotEmpty;
+    return !state.status.hasErrorInForgotPassword && state.username.isNotEmpty;
   }
 
-  setUserId(String value) {
-    _validateUserEmail(value);
-    state.copyWith(username: value);
-    //state = auth;
+  void setUserId(String value) {
+    //state.copyWith(username: value);
+    state.copyWith(token: value);
+    //_validateUserEmail(value);
   }
 
   signUpDefault() {}
@@ -41,20 +34,21 @@ class AuthProvider extends StateNotifier<Authentication> {
   void setPassword(String value) async {
     _validatePassword(value);
     state.copyWith(password: value);
-    //state = auth;
+    //
   }
 
   void setConfirmPassword(String value) {
     _validateConfirmPassword(value);
-    auth.copyWith(confirmPassword: value);
+    state.copyWith(confirmPassword: value);
   }
 
   void _validateUserEmail(String value) {
+    state.copyWith(username: 'val> $value');
     // Regex for email validation
     String pattern = "[a-zA-Z0-9+._%-+]{1,256}\\@"
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}"
         "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+";
-    print(value);
+
     RegExp regExp = RegExp(pattern);
 
     if (value.isEmpty) {
@@ -66,34 +60,34 @@ class AuthProvider extends StateNotifier<Authentication> {
       state.copyWith(status: const Status(showError: true));
       state.copyWith(loginMessage: 'unauthorized');
     }
-  print(state.username);
-    state = auth;
+
+    // state.copyWith(loginMessage: value);
+    // print('<<login<< ${state.loginMessage}');
+    // print('<<<< ${state.toString()}');
   }
 
   void _validatePassword(String value) {
     if (value.isEmpty) {
-      auth.copyWith(passwordMessage: "empty");
+      state.copyWith(passwordMessage: "empty");
     } else if (value.length < 6) {
-      auth.copyWith(passwordMessage: "length");
+      state.copyWith(passwordMessage: "length");
     } else {
-      auth.copyWith(passwordMessage: '');
+      state.copyWith(passwordMessage: '');
     }
-    state = auth;
   }
 
   void _validateConfirmPassword(String value) {
     if (value.isEmpty) {
-      auth.copyWith(confirmPasswordMessage: "confirm");
-    } else if (value != auth.password) {
-      auth.copyWith(confirmPasswordMessage: "match");
+      state.copyWith(confirmPasswordMessage: "confirm");
+    } else if (value != state.password) {
+      state.copyWith(confirmPasswordMessage: "match");
     } else {
-      auth.copyWith(confirmPasswordMessage: '');
+      state.copyWith(confirmPasswordMessage: '');
     }
-    state = auth;
   }
 
   String messagePassword(context) {
-    switch (auth.passwordMessage) {
+    switch (state.passwordMessage) {
       case "confirm":
         return AppLocalizations.of(context).passwordConfirm;
       case "empty":
@@ -108,12 +102,12 @@ class AuthProvider extends StateNotifier<Authentication> {
   }
 
   message(context) {
-    auth.copyWith(
+    state.copyWith(
         status: Status(
             errorMessage: AppLocalizations.of(context).errorUnauthorized));
-    switch (auth.status.errorMessage) {
+    switch (state.status.errorMessage) {
       case "unauthorized":
-        auth.copyWith(
+        state.copyWith(
             status: Status(
                 errorMessage: AppLocalizations.of(context).errorUnauthorized));
         break;
@@ -122,17 +116,15 @@ class AuthProvider extends StateNotifier<Authentication> {
       default:
         return AppLocalizations.of(context).errorNetwork;
     }
-    state = auth;
   }
 
   signIn(context) {
-    auth.copyWith(status: Status(errorMessage: message(context)));
+    state.copyWith(status: Status(errorMessage: message(context)));
 
-    AuthServices.login(auth.username, auth.password, auth.rememberMe).then((v) {
+    AuthServices.login(state.username, state.password, state.rememberMe)
+        .then((v) {
       _loggedin(v);
     });
-
-    state = auth;
   }
 
   void _loggedin(value) async {
@@ -143,7 +135,7 @@ class AuthProvider extends StateNotifier<Authentication> {
       } */
     }
 
-    NavigationServices.navigateTo(AppsRoutes.home);
+   // NavigationServices.navigateTo(AppsRoutes.home);
     /* if (value == 'SUCCESS') {
       FLog.info(text: "Success login!");
       NavigationServices.navigateTo(AppsRoutes.home);
@@ -159,18 +151,15 @@ class AuthProvider extends StateNotifier<Authentication> {
   }
 
   Future register() async {
-    auth.copyWith(status: const Status(loading: true));
-    state = auth;
+    state.copyWith(status: const Status(loading: true));
   }
 
   Future gotoHome() async {
-    if (auth.loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
-    state = auth;
+   // if (state.loggedIn) NavigationServices.navigateTo(AppsRoutes.home);
   }
 
   Future forgotPassword() async {
-    auth.copyWith(status: const Status(loading: true));
-    state = auth;
+    state.copyWith(status: const Status(loading: true));
   }
 
   void signUpWithGoogle() async {}
@@ -182,10 +171,9 @@ class AuthProvider extends StateNotifier<Authentication> {
   void signUpWithTwitter() async {}
 
   Future<void> logout() async {
-    auth.copyWith(status: const Status(loading: true));
+    state.copyWith(status: const Status(loading: true));
     AuthServices.logout();
-    NavigationServices.navigateTo(AppsRoutes.login);
-    auth.copyWith(status: const Status(loading: false));
-    state = auth;
+   // NavigationServices.navigateTo(AppsRoutes.login);
+    state.copyWith(status: const Status(loading: false));
   }
 }

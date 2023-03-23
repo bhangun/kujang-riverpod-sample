@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_sample/modules/app/provider/db_provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:riverpod_sample/bloc/db_bloc.dart';
 import 'package:sembast/sembast.dart';
 
 import 'fake_directory.dart';
@@ -16,7 +17,7 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      AsyncValue<DBProvider> dbf = container.read(dbProvider);
+      AsyncValue<DBBloc> dbf = container.read(dbBloc);
 
       var db = await dbf.asData?.value.setDBKey('mkmk');
 

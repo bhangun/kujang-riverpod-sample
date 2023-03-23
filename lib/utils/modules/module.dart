@@ -1,24 +1,12 @@
+import 'package:go_router/go_router.dart';
+
+import '../../widgets/admin_adaptive/index.dart';
 
 
 abstract class Module {
   String? name;
-  List<Page> pages();
+  String? baseRoute;
+  List<Menu> pages();
   void services();
-  List routes();
-}
-
-class Page{
-  String? name;
-  String? title;
-  String? route;
-  bool showInDrawer;
-  bool showInHome;
-
-  Page(
-      {
-        this.name,
-        this.title,
-        this.route,
-        this.showInDrawer = false,
-        this.showInHome = false});
+  List<GoRoute> goroutes();
 }

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'auth_provider.dart';
 
 final signInAsyncNotifier =
     StateNotifierProvider<SignInAsyncNotifier, AsyncValue<bool>>(

@@ -6,13 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:riverpod_sample/modules/auth/model/auth_model.dart';
 
+import '../../../widgets/form/textfield_widget.dart';
 import '../../settings/provider/settings_provider.dart';
 import '../provider/auth_provider.dart';
 import '../../../utils/helper.dart';
-import '../../../services/apps_routes.dart';
-import '../../../services/navigation.dart';
 import '../../../utils/config.dart';
-import '../../../widgets/textfield_widget.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -46,6 +44,9 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
     _usernameController.addListener(() {
       // this will be called whenever user types in some value
       ref.read(authProvider.notifier).setUserId(_usernameController.text);
+
+      //ref.read(testProvider.notifier).list(_usernameController.text);
+      //ref.read(testProvider2.notifier).list(_usernameController.text);
     });
 
     _passwordController.addListener(() {
@@ -67,6 +68,7 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     auth = ref.watch(authProvider);
     _isLight = ref.watch(settingsProvider).isLightTheme;
+// print(ref.watch(testProvider).last);
 
     return Scaffold(
         primary: true,
@@ -78,8 +80,7 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
                 splashRadius: 15,
                 color: Theme.of(context).errorColor,
                 icon: const Icon(Icons.info),
-                onPressed: () =>
-                    NavigationServices.navigateTo(AppsRoutes.about),
+                onPressed: () =>{},
               ),
               IconButton(
                   splashRadius: 15,
@@ -101,6 +102,12 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                //Text.rich(TextSpan(text: ref.watch(testProvider.notifier).text())),
+                //Text(ref.listen(testProvider, (previous, next) => next)),
+                // Text(ref.watch(testProvider).toString()),
+                Text('${auth.loginMessage}}'),
+                Text('${ref.watch(authProvider).token}}'),
+                Text('test >>${ref.watch(authProvider).toString()}'),
                 SvgPicture.asset(
                   imageSplash,
                   width: 60,
@@ -125,7 +132,7 @@ class _Loginpagestate extends ConsumerState<LoginPage> {
         onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(_passwordFocusNode);
         },
-        errorText: auth.loginMessage,
+        errorText: ref.watch(authProvider).loginMessage,
       );
 
   Widget _passwordField() => TextFieldWidget(

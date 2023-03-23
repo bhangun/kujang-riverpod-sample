@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "52.0.0"
+  adaptive_screen:
+    dependency: "direct main"
+    description:
+      name: adaptive_screen
+      sha256: b640373a8e916a7933957d07230e216a68ce5270818a9c6ec7087affaa2098c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   analyzer:
     dependency: transitive
     description:
@@ -41,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  awesome_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: awesome_bottom_bar
+      sha256: c616431b1ba4ef31c07ab77887ec24390b4bcaf74dd341444ca66e7f5d504b56
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -257,6 +273,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  desktop_window:
+    dependency: "direct main"
+    description:
+      name: desktop_window
+      sha256: "6256fb6feb7b5ec1311c76a3503f89202825bfe92c0458ec5fe7a728ffa216d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   dio:
     dependency: "direct main"
     description:
@@ -525,7 +549,7 @@ packages:
     source: hosted
     version: "2.0.1"
   logging:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logging
       sha256: "04094f2eb032cbb06c6f6e8d3607edcfcb0455e2bb6cbc010cb01171dcb64e6d"
@@ -1089,6 +1113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  universal_platform:
+    dependency: "direct main"
+    description:
+      name: universal_platform
+      sha256: d315be0f6641898b280ffa34e2ddb14f3d12b1a37882557869646e0cc363d0cc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1250,5 +1282,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=2.19.3 <3.0.0"
   flutter: ">=3.3.0"

@@ -10,49 +10,64 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:desktop_window/desktop_window.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
+import 'package:universal_platform/universal_platform.dart';
+
+import 'bloc/auth_bloc.dart';
+import 'main_routes.dart';
 import 'modules/settings/provider/settings_provider.dart';
-import 'services/apps_routes.dart';
-import 'services/navigation.dart';
 import 'utils/modules/modules_registry.dart';
 import 'utils/routes.dart';
-import 'utils/themes/theme_services.dart';
+import 'utils/themes/app_theme.dart';
+
+Future setDesktopWindow() async {
+  await DesktopWindow.setMinWindowSize(const Size(400, 400));
+  await DesktopWindow.setWindowSize(const Size(1300, 900));
+}
 
 Future<void> main() async {
   // Initialized
   WidgetsFlutterBinding.ensureInitialized();
 
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    if (kDebugMode) {
+      print('${record.level.name}: ${record.time}: ${record.message}');
+    }
+  });
+
+   if (UniversalPlatform.isDesktop) {
+    setDesktopWindow();
+  }
+
   // Register all module
-  ModulesRegistry.registry();
+  ModulesRegistry.routes();
 
   // Run main app
   runApp(const ProviderScope(child: KujangApp()));
 }
 
-
 class KujangApp extends ConsumerWidget {
   const KujangApp({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingProvider = ref.watch(settingsProvider);
-    List<Locale> supportedLocales = ref.read(settingsProvider).supportedLocales; 
-
-    return MaterialApp(
-      key: GlobalKey<NavigatorState>(),
-      //theme: ThemeServices.lightTheme(),
-      //darkTheme: ThemeServices.darkTheme(),
-      //themeMode: settingProvider.isLightTheme ? ThemeMode.light:ThemeMode.dark ,
-      routes: RoutesService.routes,
-      initialRoute: AppsRoutes.splash,
-      navigatorKey: NavigationServices.navigatorKey,
-      debugShowCheckedModeBanner: false,
-      locale: settingProvider.locale,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: supportedLocales,
-    );
+    final settingState = ref.watch(settingsProvider);
+    List<Locale> supportedLocales = ref.read(settingsProvider).supportedLocales;
+    return MaterialApp.router(
+        key: GlobalKey<NavigatorState>(),
+        theme: AppTheme.lightTheme(),
+        darkTheme: AppTheme.darkTheme(),
+        themeMode: settingState.isLightTheme ? ThemeMode.light : ThemeMode.dark,
+        routerConfig: Routes.config(ref:ref, initial: MainRoutes.main, isLoggedIn: ref.watch(authBloc.notifier).loggedIn),
+        debugShowCheckedModeBanner: false,
+        locale: settingState.locale,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: supportedLocales);
   }
 }
